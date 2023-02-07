@@ -1,41 +1,45 @@
 <script setup>
-import { useBackgroundStore } from "../stores/BackgroundStore";
-const backgroundStore = useBackgroundStore();
+import { useHomePageStore } from "../stores/HomePageStore";
+import MovieCard from "../components/MovieCard.vue";
+const homePageStore = useHomePageStore();
 </script>
 <template>
-  <div class="img_container">
-    <div class="overlay overlay1">
-      <img :src="backgroundStore.background1" alt="movies background" />
-      <div class="title">
-        <div>
-          <h2>Bienvenue,</h2>
-          <h5>Des millions de films, émissions télévisées et artistes...</h5>
-        </div>
-        <div class="col-12 md:col-4">
-          <div class="p-inputgroup input_box">
-            <InputText
-              class="search_input"
-              placeholder="Rechercher un film, une émission télévisée, un artiste..."
-            />
-            <Button label="Search" class="search_btn" />
+  <div>
+    <div class="img_container">
+      <div class="overlay overlay1">
+        <img :src="homePageStore.background1" alt="movies background" />
+        <div class="title">
+          <div>
+            <h2>Bienvenue,</h2>
+            <h5>Des millions de films, émissions télévisées et artistes...</h5>
+          </div>
+          <div class="col-12 md:col-4">
+            <div class="p-inputgroup input_box">
+              <InputText
+                class="search_input"
+                placeholder="Rechercher un film, une émission télévisée, un artiste..."
+              />
+              <Button label="Search" class="search_btn" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="overlay overlay2">
-      <img :src="backgroundStore.background2" alt="movies background" />
-      <div class="title">
-        <div>
-          <h1>THAT'S A</h1>
-          <h1>WRAP 2022</h1>
+      <div class="overlay overlay2">
+        <img :src="homePageStore.background2" alt="movies background" />
+        <div class="title">
+          <div>
+            <h1>THAT'S A</h1>
+            <h1>WRAP 2022</h1>
+          </div>
+          <hr />
+          <p>The best (and worst) from 2022.</p>
+          <router-link class="link" to="/2022">
+            <div class="check_it_btn">check it out &rarr;</div>
+          </router-link>
         </div>
-        <hr />
-        <p>The best (and worst) from 2022.</p>
-        <router-link class="link" to="/2022">
-          <div class="check_it_btn">check it out &rarr;</div>
-        </router-link>
       </div>
     </div>
+    <MovieCard />
   </div>
 </template>
 <style scoped>
@@ -126,7 +130,7 @@ const backgroundStore = useBackgroundStore();
   position: relative;
 }
 .search_input {
-  height: 4.4rem;
+  height: 4.6rem;
   padding: 0 1rem;
   font-size: 1.6rem;
   letter-spacing: 0.4px;
