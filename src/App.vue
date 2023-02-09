@@ -18,15 +18,16 @@ import TheNavebar from "./components/TheNavebar.vue";
   width: 100%;
   height: 6.4rem;
   background-color: rgba(var(--tmdbDarkBlue), 1);
-  padding: 0 18rem;
+  /* padding: 0 18rem; */
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.6px;
 }
 nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
+  gap: 24rem;
 }
 </style>

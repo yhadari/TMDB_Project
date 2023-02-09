@@ -30,29 +30,33 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
     <div class="title">
       <h1>Tendances</h1>
       <span class="p-buttonset">
-        <Button
+        <button
           @click="handleClick"
-          label="Aujourd'hui"
-          :class="`${state.tendanceBtnOne ? 'clickedBtn' : ''}`"
-        />
-        <Button
+          :class="`btn_left ${state.tendanceBtnOne ? 'clickedBtn' : ''}`"
+        >
+          Aujourd'hui
+        </button>
+        <button
           @click="handleClick"
-          label="Cette semaine"
-          :class="`${state.tendanceBtnTwo ? 'clickedBtn' : ''}`"
-        />
+          :class="`btn_right ${state.tendanceBtnTwo ? 'clickedBtn' : ''}`"
+        >
+          Cette semaine
+        </button>
       </span>
     </div>
     <div class="moviesCards">
-      <div
-        class="moviesCard"
-        v-for="movie in homePageStore.upComingMovies"
-        :key="movie.id"
-      >
-        <img
-          class="moviePoster"
-          :src="`${state.path}${movie.poster_path}`"
-          alt="movie poster"
-        />
+      <div class="scrollBox">
+        <div
+          class="movieCard"
+          v-for="movie in homePageStore.upComingMovies"
+          :key="movie.id"
+        >
+          <img
+            class="moviePoster"
+            :src="`${state.path}${movie.poster_path}`"
+            alt="movie poster"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -61,7 +65,7 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
 <style scoped>
 .moviesContainer {
   max-width: 130rem;
-  height: 40rem;
+  height: 42rem;
   margin: 0 auto;
   margin-top: 1.4rem;
   color: #fff;
@@ -78,26 +82,29 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
   font-size: 2.4rem;
   font-weight: 600;
 }
-.title Button {
+.title button {
   font-size: 1.5rem;
   padding: 0.6rem 2.6rem;
   border: none;
   background-color: #fff;
   color: black;
   box-shadow: none;
-  border-radius: 2rem;
   font-weight: 500;
   letter-spacing: 0.4px;
+  cursor: pointer;
 }
-.title Button:hover {
-  background-color: rgba(var(--tmdbDarkBlue), 1);
-  color: rgba(var(--tmdbLightGreen), 1);
-  border: none;
-  box-shadow: none;
+.btn_right {
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+.btn_left {
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
 }
 .title .clickedBtn {
   background-color: rgba(var(--tmdbDarkBlue), 1);
   color: rgba(var(--tmdbLightGreen), 1);
+  transition: all 0.5s;
 }
 .p-buttonset {
   border: 1px solid rgba(var(--tmdbDarkBlue), 1);
@@ -105,16 +112,41 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
 }
 .moviesCards {
   height: 85%;
-  /* background-color: black; */
+  width: 100%;
   display: flex;
+  position: relative;
+}
+.moviesCards::before {
+  width: 100%;
+  height: 100%;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("../assets/IMDb_Header_Page.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.1;
+  z-index: -1;
+  /* border-radius: 1rem; */
+}
+.scrollBox {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
   overflow-x: scroll;
 }
-.moviesCard {
-  height: 80%;
-  min-width: 16rem;
-  background-color: black;
-  margin: 1rem;
+.scrollBox::-webkit-scrollbar {
+  height: 0.8rem;
+}
+.scrollBox::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
   border-radius: 1rem;
+}
+.movieCard {
+  height: 22.5rem;
+  min-width: 15rem;
+  margin: 1rem;
 }
 .moviePoster {
   width: 100%;
