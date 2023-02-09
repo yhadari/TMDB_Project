@@ -2,14 +2,26 @@
 import { useHomePageStore } from "../stores/HomePageStore";
 import { reactive } from "vue";
 const homePageStore = useHomePageStore();
+
+// data
 const state = reactive({
   tendanceBtnOne: true,
   tendanceBtnTwo: false,
-  path: import.meta.env.VITE_TMDB_MOVIE_PATH,
+  movie_path: import.meta.env.VITE_TMDB_MOVIE_PATH,
   media_type: "all",
   time_window: "day",
 });
+
+// fetch movies
+homePageStore.fetchMovies(state.media_type, state.time_window);
+
+// methods
+const ScrollToLeft = () => {
+  let content = document.querySelector(".scrollBox");
+  content.scrollLeft = 0;
+};
 const handleClick = (e) => {
+  ScrollToLeft();
   if (e.target.innerText === "Aujourd'hui") {
     state.tendanceBtnOne = true;
     state.tendanceBtnTwo = false;
@@ -22,14 +34,13 @@ const handleClick = (e) => {
     homePageStore.fetchMovies(state.media_type, state.time_window);
   }
 };
-homePageStore.fetchMovies(state.media_type, state.time_window);
 </script>
 
 <template>
-  <div class="moviesContainer">
+  <div>
     <div class="title">
       <h1>Tendances</h1>
-      <span class="p-buttonset">
+      <div class="btn_box">
         <button
           @click="handleClick"
           :class="`btn_left ${state.tendanceBtnOne ? 'clickedBtn' : ''}`"
@@ -42,7 +53,7 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
         >
           Cette semaine
         </button>
-      </span>
+      </div>
     </div>
     <div class="moviesCards">
       <div class="scrollBox">
@@ -53,9 +64,16 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
         >
           <img
             class="moviePoster"
-            :src="`${state.path}${movie.poster_path}`"
+            :src="`${state.movie_path}${movie.poster_path}`"
             alt="movie poster"
           />
+          <img
+            class="tree_points"
+            src="../assets/TreePoints.svg"
+            alt="TreePoinst"
+          />
+          <h2 class="movieTitle">{{ movie.title || movie.name }}</h2>
+          <p>{{ movie.release_date || movie.first_air_date }}</p>
         </div>
       </div>
     </div>
@@ -63,14 +81,6 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
 </template>
 
 <style scoped>
-.moviesContainer {
-  max-width: 130rem;
-  height: 42rem;
-  margin: 0 auto;
-  margin-top: 1.4rem;
-  color: #fff;
-  padding: 0 2rem;
-}
 .title {
   height: 15%;
   color: black;
@@ -82,7 +92,7 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
   font-size: 2.4rem;
   font-weight: 600;
 }
-.title button {
+.btn_box button {
   font-size: 1.5rem;
   padding: 0.6rem 2.6rem;
   border: none;
@@ -93,6 +103,10 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
   letter-spacing: 0.4px;
   cursor: pointer;
 }
+.btn_box {
+  border: 1px solid rgba(var(--tmdbDarkBlue), 1);
+  border-radius: 2rem;
+}
 .btn_right {
   border-top-right-radius: 2rem;
   border-bottom-right-radius: 2rem;
@@ -101,14 +115,10 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
   border-top-left-radius: 2rem;
   border-bottom-left-radius: 2rem;
 }
-.title .clickedBtn {
+.btn_box .clickedBtn {
   background-color: rgba(var(--tmdbDarkBlue), 1);
   color: rgba(var(--tmdbLightGreen), 1);
   transition: all 0.5s;
-}
-.p-buttonset {
-  border: 1px solid rgba(var(--tmdbDarkBlue), 1);
-  border-radius: 2rem;
 }
 .moviesCards {
   height: 85%;
@@ -116,9 +126,9 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
   display: flex;
   position: relative;
 }
-.moviesCards::before {
+/* .moviesCards::before {
   width: 100%;
-  height: 100%;
+  height: 80%;
   content: "";
   position: absolute;
   top: 0;
@@ -126,15 +136,13 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
   background-image: url("../assets/IMDb_Header_Page.jpg");
   background-size: cover;
   background-position: center;
-  opacity: 0.1;
+  opacity: 0.3;
   z-index: -1;
-  /* border-radius: 1rem; */
-}
+} */
 .scrollBox {
   display: flex;
-  gap: 1rem;
-  padding: 0 1rem;
   overflow-x: scroll;
+  color: #000;
 }
 .scrollBox::-webkit-scrollbar {
   height: 0.8rem;
@@ -144,13 +152,28 @@ homePageStore.fetchMovies(state.media_type, state.time_window);
   border-radius: 1rem;
 }
 .movieCard {
+  position: relative;
   height: 22.5rem;
   min-width: 15rem;
   margin: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 1rem;
 }
 .moviePoster {
   width: 100%;
   height: 100%;
   border-radius: 1rem;
+}
+.tree_points {
+  cursor: pointer;
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  opacity: 0.6;
+}
+.movieTitle {
+  margin-top: 2rem;
 }
 </style>
