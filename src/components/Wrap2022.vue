@@ -5,7 +5,7 @@ const homePageStore = useHomePageStore();
 <template>
   <div>
     <div class="overlay">
-      <img :src="homePageStore.background2" alt="movies background" />
+      <img src="../assets/wrap2022_bg.jpg" alt="movies background" />
       <div class="title">
         <div class="wrap_text">
           <h1>THAT'S A</h1>

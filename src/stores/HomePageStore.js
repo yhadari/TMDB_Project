@@ -4,8 +4,7 @@ import axios from "axios";
 export const useHomePageStore = defineStore("backgroundStore", {
   state: () => {
     return {
-      background1: "https://api.lorem.space/image/movie?w=2000&h=700",
-      background2: "https://api.lorem.space/image/movie?w=2000&h=720",
+      background: "https://api.lorem.space/image/movie?w=2000&h=980",
       upComingMovies: [],
     };
   },

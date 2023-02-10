@@ -126,23 +126,23 @@ const handleClick = (e) => {
   display: flex;
   position: relative;
 }
-/* .moviesCards::before {
-  width: 100%;
-  height: 80%;
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-image: url("../assets/IMDb_Header_Page.jpg");
-  background-size: cover;
-  background-position: center;
-  opacity: 0.3;
-  z-index: -1;
-} */
 .scrollBox {
   display: flex;
   overflow-x: scroll;
   color: #000;
+}
+.scrollBox:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: "";
+  width: 6rem;
+  height: 100%;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    #fff 100%
+  );
 }
 .scrollBox::-webkit-scrollbar {
   height: 0.8rem;
@@ -163,6 +163,7 @@ const handleClick = (e) => {
   width: 100%;
   height: 100%;
   border-radius: 1rem;
+  cursor: pointer;
 }
 .tree_points {
   cursor: pointer;
@@ -175,5 +176,6 @@ const handleClick = (e) => {
 }
 .movieTitle {
   margin-top: 2rem;
+  letter-spacing: 0.6px;
 }
 </style>
