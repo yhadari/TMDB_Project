@@ -1,60 +1,40 @@
 <script setup>
-import { useHomePageStore } from "../stores/HomePageStore";
-import { reactive } from "vue";
+import { useHomePageStore } from "@/stores/HomePageStore";
+import { reactive, ref } from "vue";
+import ToggleBox from "@/components/ToggleBox.vue";
 const homePageStore = useHomePageStore();
 
 // data
 const state = reactive({
-  tendanceBtnOne: true,
-  tendanceBtnTwo: false,
   movie_path: import.meta.env.VITE_TMDB_MOVIE_PATH,
-  media_type: "all",
-  time_window: "day",
 });
 
-// fetch movies
-homePageStore.fetchMovies(state.media_type, state.time_window);
+const toggle = ref([
+  {
+    name: "Aujourd'hui",
+    type: {
+      media_type: "all",
+      time_window: "day",
+    },
+    clicked: true,
+  },
+  {
+    name: "Cette semaine",
+    type: {
+      media_type: "all",
+      time_window: "week",
+    },
+    clicked: false,
+  },
+]);
 
-// methods
-const ScrollToLeft = () => {
-  let content = document.querySelector(".scrollBox");
-  content.scrollLeft = 0;
-};
-const handleClick = (e) => {
-  ScrollToLeft();
-  if (e.target.innerText === "Aujourd'hui") {
-    state.tendanceBtnOne = true;
-    state.tendanceBtnTwo = false;
-    state.time_window = "day";
-    homePageStore.fetchMovies(state.media_type, state.time_window);
-  } else {
-    state.tendanceBtnOne = false;
-    state.tendanceBtnTwo = true;
-    state.time_window = "week";
-    homePageStore.fetchMovies(state.media_type, state.time_window);
-  }
-};
+// fetch movies
+homePageStore.fetchMovies("all", "day");
 </script>
 
 <template>
   <div>
-    <div class="title">
-      <h1>Tendances</h1>
-      <div class="btn_box">
-        <button
-          @click="handleClick"
-          :class="`btn_left ${state.tendanceBtnOne ? 'clickedBtn' : ''}`"
-        >
-          Aujourd'hui
-        </button>
-        <button
-          @click="handleClick"
-          :class="`btn_right ${state.tendanceBtnTwo ? 'clickedBtn' : ''}`"
-        >
-          Cette semaine
-        </button>
-      </div>
-    </div>
+    <ToggleBox title="Tendances" :toggle="toggle" />
     <div class="moviesCards">
       <div class="scrollBox">
         <div
@@ -81,45 +61,6 @@ const handleClick = (e) => {
 </template>
 
 <style scoped>
-.title {
-  height: 15%;
-  color: black;
-  display: flex;
-  align-items: center;
-  gap: 2.6rem;
-}
-.title h1 {
-  font-size: 2.4rem;
-  font-weight: 600;
-}
-.btn_box button {
-  font-size: 1.5rem;
-  padding: 0.6rem 2.6rem;
-  border: none;
-  background-color: #fff;
-  color: black;
-  box-shadow: none;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  cursor: pointer;
-}
-.btn_box {
-  border: 1px solid rgba(var(--tmdbDarkBlue), 1);
-  border-radius: 2rem;
-}
-.btn_right {
-  border-top-right-radius: 2rem;
-  border-bottom-right-radius: 2rem;
-}
-.btn_left {
-  border-top-left-radius: 2rem;
-  border-bottom-left-radius: 2rem;
-}
-.btn_box .clickedBtn {
-  background-color: rgba(var(--tmdbDarkBlue), 1);
-  color: rgba(var(--tmdbLightGreen), 1);
-  transition: all 0.5s;
-}
 .moviesCards {
   height: 85%;
   width: 100%;

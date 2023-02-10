@@ -1,36 +1,51 @@
 <script setup>
 import { defineProps } from "vue";
+import { useHomePageStore } from "@/stores/HomePageStore";
+const homePageStore = useHomePageStore();
 
+// props
 const props = defineProps({
   title: {
-    type: string,
+    type: String,
     required: true,
   },
   toggle: {
-    type: Array[String],
+    type: Array,
     required: true,
   },
 });
+
+// methods
+const ScrollToLeft = () => {
+  let content = document.querySelector(".scrollBox");
+  content.scrollLeft = 0;
+};
+const handleClick = (toggle) => {
+  ScrollToLeft();
+  homePageStore.fetchMovies(toggle.type.media_type, toggle.type.time_window);
+  props.toggle.forEach((ele) => {
+    ele.clicked = false;
+  });
+  toggle.clicked = true;
+};
 </script>
+
 <template>
   <div class="title">
-    <h1>Tendances</h1>
+    <h1>{{ props.title }}</h1>
     <div class="btn_box">
-      <button
-        @click="handleClick"
-        :class="`btn_left ${state.tendanceBtnOne ? 'clickedBtn' : ''}`"
-      >
-        Aujourd'hui
-      </button>
-      <button
-        @click="handleClick"
-        :class="`btn_right ${state.tendanceBtnTwo ? 'clickedBtn' : ''}`"
-      >
-        Cette semaine
-      </button>
+      <div v-for="toggle in props.toggle" :key="toggle.name">
+        <button
+          @click="handleClick(toggle)"
+          :class="`${toggle.clicked ? 'clickedBtn' : ''}`"
+        >
+          {{ toggle.name }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
+
 <style scoped>
 .title {
   height: 15%;
@@ -43,9 +58,14 @@ const props = defineProps({
   font-size: 2.4rem;
   font-weight: 600;
 }
+.btn_box {
+  display: flex;
+  border: 1px solid rgba(var(--tmdbDarkBlue), 1);
+  border-radius: 2rem;
+}
 .btn_box button {
   font-size: 1.5rem;
-  padding: 0.6rem 2.6rem;
+  padding: 0.6rem 2rem;
   border: none;
   background-color: #fff;
   color: black;
@@ -53,22 +73,11 @@ const props = defineProps({
   font-weight: 500;
   letter-spacing: 0.4px;
   cursor: pointer;
-}
-.btn_box {
-  border: 1px solid rgba(var(--tmdbDarkBlue), 1);
   border-radius: 2rem;
-}
-.btn_right {
-  border-top-right-radius: 2rem;
-  border-bottom-right-radius: 2rem;
-}
-.btn_left {
-  border-top-left-radius: 2rem;
-  border-bottom-left-radius: 2rem;
 }
 .btn_box .clickedBtn {
   background-color: rgba(var(--tmdbDarkBlue), 1);
   color: rgba(var(--tmdbLightGreen), 1);
-  transition: all 0.5s;
+  transition: all 0.7s;
 }
 </style>
