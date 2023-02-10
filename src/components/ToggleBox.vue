@@ -78,6 +78,18 @@ const handleClick = (toggle) => {
 .btn_box .clickedBtn {
   background-color: rgba(var(--tmdbDarkBlue), 1);
   color: rgba(var(--tmdbLightGreen), 1);
-  transition: all 0.7s;
+  /* animation-name: togglAnimation;
+  animation-duration: 1s;
+  animation-fill-mode: forwards; */
+  transition: all 0.5s;
 }
+
+/* @keyframes togglAnimation {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+} */
 </style>

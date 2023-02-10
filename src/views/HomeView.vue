@@ -2,13 +2,14 @@
 import BienvenueBox from "../components/BienvenueBox.vue";
 import Wrap2022 from "../components/Wrap2022.vue";
 import MoviesCard from "../components/MoviesCard.vue";
+import VediosBox from "../components/VediosBox.vue";
 </script>
 <template>
   <div class="conatiner">
     <BienvenueBox class="bienvenueBox" />
     <Wrap2022 class="wrap22" />
     <MoviesCard class="moviesCard" />
-    <div class="box box4"></div>
+    <VediosBox class="vedioBox" />
   </div>
 </template>
 <style scoped>
@@ -26,15 +27,13 @@ import MoviesCard from "../components/MoviesCard.vue";
   font-size: 3.2rem;
   letter-spacing: 0.8px;
 }
-.moviesCard {
+.moviesCard,
+.vedioBox {
   width: 130rem;
   height: 43.2rem;
   margin-top: 1.4rem;
   color: #fff;
   padding: 0 2rem;
-}
-.box4 {
-  background: #666;
 }
 
 @media screen and (max-width: 2600px) {
