@@ -45,11 +45,13 @@ const toggle = ref([
 ]);
 
 // fetch movies
-homePageStore.fetchMovies("all", "day");
+homePageStore.fetchTrendingMovies("all", "day");
 </script>
+
 <template>
   <div>
-    <ToggleBox title="Bandes-annonces" :toggle="toggle" />
+    <ToggleBox title="Bandes-annonces" type="vedio" :toggle="toggle" />
   </div>
 </template>
+
 <style scoped></style>

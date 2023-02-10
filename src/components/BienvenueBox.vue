@@ -25,4 +25,17 @@ const homePageStore = useHomePageStore();
 </template>
 <style scoped>
 @import "@/styles/HomePage.css";
+.overlay::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background: rgb(0, 27, 79);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 27, 79, 1) 43%,
+    rgba(0, 105, 180, 1) 100%
+  );
+}
 </style>

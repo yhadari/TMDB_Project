@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, computed } from "vue";
 import { useHomePageStore } from "@/stores/HomePageStore";
 const homePageStore = useHomePageStore();
 
@@ -13,16 +13,27 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
 });
 
 // methods
+const clickedBtn = computed(() => {
+  return props.type === "poster" ? "clickedBtnOne" : "clickedBtnTwo";
+});
+
 const ScrollToLeft = () => {
   let content = document.querySelector(".scrollBox");
   content.scrollLeft = 0;
 };
 const handleClick = (toggle) => {
   ScrollToLeft();
-  homePageStore.fetchMovies(toggle.type.media_type, toggle.type.time_window);
+  homePageStore.fetchTrendingMovies(
+    toggle.type.media_type,
+    toggle.type.time_window
+  );
   props.toggle.forEach((ele) => {
     ele.clicked = false;
   });
@@ -33,11 +44,15 @@ const handleClick = (toggle) => {
 <template>
   <div class="title">
     <h1>{{ props.title }}</h1>
-    <div class="btn_box">
+    <div
+      :class="`btn_box ${props.type === 'poster' && 'border_poster'} ${
+        props.type === 'vedio' && 'border_vedio'
+      }`"
+    >
       <div v-for="toggle in props.toggle" :key="toggle.name">
         <button
           @click="handleClick(toggle)"
-          :class="`${toggle.clicked ? 'clickedBtn' : ''}`"
+          :class="`${toggle.clicked ? clickedBtn : ''}`"
         >
           {{ toggle.name }}
         </button>
@@ -49,47 +64,52 @@ const handleClick = (toggle) => {
 <style scoped>
 .title {
   height: 15%;
-  color: black;
+  color: inherit;
   display: flex;
   align-items: center;
   gap: 2.6rem;
+  padding: 0 2rem;
 }
 .title h1 {
-  font-size: 2.4rem;
   font-weight: 600;
+  font-size: 2.4rem;
 }
 .btn_box {
   display: flex;
-  border: 1px solid rgba(var(--tmdbDarkBlue), 1);
   border-radius: 2rem;
 }
 .btn_box button {
   font-size: 1.5rem;
   padding: 0.6rem 2rem;
   border: none;
-  background-color: #fff;
-  color: black;
+  background-color: transparent;
+  color: inherit;
   box-shadow: none;
   font-weight: 500;
   letter-spacing: 0.4px;
   cursor: pointer;
   border-radius: 2rem;
 }
-.btn_box .clickedBtn {
+.btn_box .clickedBtnOne {
   background-color: rgba(var(--tmdbDarkBlue), 1);
   color: rgba(var(--tmdbLightGreen), 1);
-  /* animation-name: togglAnimation;
-  animation-duration: 1s;
-  animation-fill-mode: forwards; */
+  transition: all 0.5s;
+}
+.btn_box .clickedBtnTwo {
+  color: rgba(var(--tmdbDarkBlue), 1);
+  background-color: rgba(var(--tmdbLightGreen), 1);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--tmdbLighterGreen), 1),
+    rgba(var(--tmdbLightGreen), 1)
+  );
   transition: all 0.5s;
 }
 
-/* @keyframes togglAnimation {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-} */
+.border_poster {
+  border: 1px solid rgba(var(--tmdbDarkBlue), 1);
+}
+.border_vedio {
+  border: 1px solid rgba(var(--tmdbLightGreen), 1);
+}
 </style>

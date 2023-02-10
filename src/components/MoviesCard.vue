@@ -29,17 +29,18 @@ const toggle = ref([
 ]);
 
 // fetch movies
-homePageStore.fetchMovies("all", "day");
+homePageStore.fetchTrendingMovies("all", "day");
+homePageStore.fetchTrailer("streaming");
 </script>
 
 <template>
   <div>
-    <ToggleBox title="Tendances" :toggle="toggle" />
+    <ToggleBox title="Tendances" type="poster" :toggle="toggle" />
     <div class="moviesCards">
       <div class="scrollBox">
         <div
           class="movieCard"
-          v-for="movie in homePageStore.upComingMovies"
+          v-for="movie in homePageStore.trending"
           :key="movie.id"
         >
           <img
@@ -71,6 +72,7 @@ homePageStore.fetchMovies("all", "day");
   display: flex;
   overflow-x: scroll;
   color: #000;
+  padding: 0 2rem;
 }
 .scrollBox:after {
   position: absolute;
@@ -86,11 +88,11 @@ homePageStore.fetchMovies("all", "day");
   );
 }
 .scrollBox::-webkit-scrollbar {
-  height: 0.8rem;
+  height: 1rem;
 }
 .scrollBox::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 1rem;
+  border-radius: 0.8rem;
 }
 .movieCard {
   position: relative;
