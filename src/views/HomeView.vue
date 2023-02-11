@@ -44,9 +44,6 @@ import VediosBox from "../components/VediosBox.vue";
 .vedioBox {
   height: 38rem;
   color: #fff;
-  /* background-image: url("../assets/vedioBackground.jpg");
-  background-size: cover; */
-  background-color: #555;
   padding-top: 2rem;
 }
 

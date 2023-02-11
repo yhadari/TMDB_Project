@@ -12,6 +12,7 @@
   width: 100%;
   display: flex;
   position: relative;
+  z-index: 10;
 }
 .scrollBox {
   display: flex;
