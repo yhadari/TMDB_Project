@@ -30,10 +30,12 @@ const ScrollToLeft = () => {
 };
 const handleClick = (toggle) => {
   ScrollToLeft();
-  homePageStore.fetchTrendingMovies(
-    toggle.type.media_type,
-    toggle.type.time_window
-  );
+  if (props.type === "poster") {
+    homePageStore.fetchTrendingMovies(
+      toggle.type.media_type,
+      toggle.type.time_window
+    );
+  }
   props.toggle.forEach((ele) => {
     ele.clicked = false;
   });
@@ -68,7 +70,8 @@ const handleClick = (toggle) => {
   display: flex;
   align-items: center;
   gap: 2.6rem;
-  padding: 0 2rem;
+  padding: 0 2.6rem;
+  z-index: 10;
 }
 .title h1 {
   font-weight: 600;

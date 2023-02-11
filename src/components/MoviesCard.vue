@@ -2,6 +2,7 @@
 import { useHomePageStore } from "@/stores/HomePageStore";
 import { reactive, ref } from "vue";
 import ToggleBox from "@/components/ToggleBox.vue";
+import ScrolBox from "./ScrolBox.vue";
 const homePageStore = useHomePageStore();
 
 // data
@@ -30,51 +31,36 @@ const toggle = ref([
 
 // fetch movies
 homePageStore.fetchTrendingMovies("all", "day");
-homePageStore.fetchTrailer("streaming");
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <ToggleBox title="Tendances" type="poster" :toggle="toggle" />
-    <div class="moviesCards">
-      <div class="scrollBox">
-        <div
-          class="movieCard"
-          v-for="movie in homePageStore.trending"
-          :key="movie.id"
-        >
-          <img
-            class="moviePoster"
-            :src="`${state.movie_path}${movie.poster_path}`"
-            alt="movie poster"
-          />
-          <img
-            class="tree_points"
-            src="../assets/TreePoints.svg"
-            alt="TreePoinst"
-          />
-          <h2 class="movieTitle">{{ movie.title || movie.name }}</h2>
-          <p>{{ movie.release_date || movie.first_air_date }}</p>
-        </div>
+    <ScrolBox>
+      <div
+        class="movieCard"
+        v-for="movie in homePageStore.trending"
+        :key="movie.id"
+      >
+        <img
+          class="moviePoster"
+          :src="`${state.movie_path}${movie.poster_path}`"
+          alt="movie poster"
+        />
+        <img
+          class="tree_points"
+          src="../assets/TreePoints.svg"
+          alt="TreePoinst"
+        />
+        <h2 class="movieTitle">{{ movie.title || movie.name }}</h2>
+        <p>{{ movie.release_date || movie.first_air_date }}</p>
       </div>
-    </div>
+    </ScrolBox>
   </div>
 </template>
 
 <style scoped>
-.moviesCards {
-  height: 85%;
-  width: 100%;
-  display: flex;
-  position: relative;
-}
-.scrollBox {
-  display: flex;
-  overflow-x: scroll;
-  color: #000;
-  padding: 0 2rem;
-}
-.scrollBox:after {
+.container:after {
   position: absolute;
   top: 0;
   right: 0;
@@ -87,18 +73,10 @@ homePageStore.fetchTrailer("streaming");
     #fff 100%
   );
 }
-.scrollBox::-webkit-scrollbar {
-  height: 1rem;
-}
-.scrollBox::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 0.8rem;
-}
 .movieCard {
   position: relative;
   height: 22.5rem;
   min-width: 15rem;
-  margin: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 1rem;
 }

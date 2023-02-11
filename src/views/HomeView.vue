@@ -30,18 +30,24 @@ import VediosBox from "../components/VediosBox.vue";
 .moviesCard,
 .vedioBox {
   width: 130rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
 .moviesCard {
-  margin-top: 1.4rem;
-  height: 43.2rem;
+  height: 44.2rem;
+  padding-top: 1.4rem;
   color: #000;
 }
 .vedioBox {
+  height: 38rem;
   color: #fff;
-  background-image: url("../assets/vedioBackground.jpg");
-  background-size: cover;
-  padding: 2.2rem;
+  /* background-image: url("../assets/vedioBackground.jpg");
+  background-size: cover; */
+  background-color: #555;
+  padding-top: 2rem;
 }
 
 @media screen and (max-width: 2600px) {
