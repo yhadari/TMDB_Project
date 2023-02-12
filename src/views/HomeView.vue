@@ -9,7 +9,7 @@ import VediosBox from "../components/VediosBox.vue";
   <div class="conatiner">
     <BienvenueBox class="bienvenueBox" />
     <Wrap2022 class="wrap22" />
-    <MoviesCard class="moviesCard" type="trending" />
+    <MoviesCard class="moviesCard trending" type="trending" />
     <VediosBox class="vedioBox" />
     <MoviesCard class="moviesCard" type="popular" />
     <MoviesCard class="moviesCard" type="top_rated" />
@@ -37,13 +37,20 @@ import VediosBox from "../components/VediosBox.vue";
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 }
-
 .moviesCard {
   height: 44.2rem;
   padding-top: 1.4rem;
   color: #000;
+}
+.trending {
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8)
+    ),
+    url("../assets/scrollBackground.png");
+  background-size: cover;
+  background-position: 0 50%;
 }
 .vedioBox {
   height: 38rem;

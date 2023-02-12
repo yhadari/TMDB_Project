@@ -19,6 +19,9 @@ const props = defineProps({
   },
 });
 
+//emits
+const emits = defineEmits(["test"]);
+
 // methods
 const clickedBtn = computed(() => {
   return props.type === "vedio" ? "vedio_btn" : "movie_btn";
@@ -31,6 +34,9 @@ const ScrollToLeft = () => {
   });
 };
 const handleClick = (toggle) => {
+  setTimeout(() => {
+    emits("loading", true);
+  }, 500);
   ScrollToLeft();
   if (props.type === "trending") {
     homePageStore.fetchTrending(
@@ -46,6 +52,7 @@ const handleClick = (toggle) => {
     ele.clicked = false;
   });
   toggle.clicked = true;
+  emits("loading", false);
 };
 </script>
 

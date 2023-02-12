@@ -18,10 +18,7 @@ const showPlusBtn = () => {
     <div>
       <div @click="showPlusBtn" class="plus_btn">+</div>
       <div :class="`plus_btn_content ${state.plus_btn && 'plusDropdown'}`">
-        <p>
-          Un film, une émission télévisée ou un artiste est introuvable ?
-          Connectez-vous afin de créer une nouvelle fiche.
-        </p>
+        <p>Can't find a movie or TV show? Login to create it.</p>
       </div>
     </div>
     <div class="border">EN</div>
