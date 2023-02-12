@@ -24,14 +24,14 @@ const showPlusBtn = () => {
         </p>
       </div>
     </div>
-    <div class="border">FR</div>
+    <div class="border">EN</div>
     <LinkItem
-      name="Connexion"
+      name="Login"
       :links="[{ name: 'Connexion', to: '/login' }]"
       type="right"
     />
     <LinkItem
-      name="Rejoindre TMDB"
+      name="Join TMDB"
       :links="[{ name: 'Rejoindre TMDB', to: '/singup' }]"
       type="right"
     />

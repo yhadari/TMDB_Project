@@ -11,7 +11,7 @@ import LinkItem from "./LinkItem.vue";
       />
     </RouterLink>
     <LinkItem
-      name="Films"
+      name="Movies"
       :links="[
         { name: 'Populaires', to: '/movie' },
         { name: 'Du moment', to: '/movie/now-playing' },
@@ -21,7 +21,7 @@ import LinkItem from "./LinkItem.vue";
       type="left"
     />
     <LinkItem
-      name="Émissions télévisées"
+      name="TV Shows"
       :links="[
         { name: 'Populaires', to: '/tv' },
         { name: 'Diffusées aujourd’hui', to: '/tv/airing-today' },
@@ -31,12 +31,12 @@ import LinkItem from "./LinkItem.vue";
       type="left"
     />
     <LinkItem
-      name="Artistes"
+      name="People"
       :links="[{ name: 'Populaires', to: '/person' }]"
       type="left"
     />
     <LinkItem
-      name="Plus"
+      name="More"
       :links="[
         { name: 'Conversations', to: '/discuss' },
         { name: 'Top contributions', to: '/leaderboard' },

@@ -38,6 +38,9 @@ const handleClick = (toggle) => {
       toggle.type.time_window
     );
   }
+  if (props.type === "popular") {
+    homePageStore.fetchPopularMovies(toggle.type);
+  }
   props.toggle.forEach((ele) => {
     ele.clicked = false;
   });

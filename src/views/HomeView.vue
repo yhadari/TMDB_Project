@@ -12,6 +12,7 @@ import VediosBox from "../components/VediosBox.vue";
     <MoviesCard class="moviesCard" type="trending" />
     <VediosBox class="vedioBox" />
     <MoviesCard class="moviesCard" type="popular" />
+    <MoviesCard class="moviesCard" type="popular" />
   </div>
 </template>
 

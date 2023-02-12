@@ -22,34 +22,22 @@ export const trendingToggle = ref([
 export const popularToggle = ref([
   {
     name: "Streaming",
-    type: {
-      media_type: "all",
-      time_window: "day",
-    },
+    type: "movie",
     clicked: true,
   },
   {
     name: "On TV",
-    type: {
-      media_type: "all",
-      time_window: "week",
-    },
+    type: "tv",
     clicked: false,
   },
   {
     name: "For Rent",
-    type: {
-      media_type: "all",
-      time_window: "week",
-    },
+    type: "movie",
     clicked: false,
   },
   {
     name: "In Theaters",
-    type: {
-      media_type: "all",
-      time_window: "week",
-    },
+    type: "tv",
     clicked: false,
   },
 ]);

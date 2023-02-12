@@ -8,8 +8,10 @@ const homePageStore = useHomePageStore();
       <img :src="homePageStore.background" alt="movies background" />
       <div class="title">
         <div>
-          <h2>Bienvenue,</h2>
-          <h5>Des millions de films, émissions télévisées et artistes...</h5>
+          <h2>Welcome.</h2>
+          <h5>
+            Millions of movies, TV shows and people to discover. Explore now.
+          </h5>
         </div>
         <div class="input_box">
           <input

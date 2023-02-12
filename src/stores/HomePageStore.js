@@ -24,10 +24,10 @@ export const useHomePageStore = defineStore("backgroundStore", {
           console.log("error: ", err);
         });
     },
-    fetchPopularMovies() {
+    fetchPopularMovies(type) {
       axios
         .get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${
+          `https://api.themoviedb.org/3/${type}/popular?api_key=${
             import.meta.env.VITE_TMDB_KEY_VALUE
           }&language=en-US&page=1`
         )

@@ -21,7 +21,7 @@ const state = reactive({
 
 //computed
 const title = computed(() => {
-  if (props.type === "trending") return "trending";
+  if (props.type === "trending") return "Trending";
   if (props.type === "popular") return "What's Popular";
 });
 const toggle = computed(() => {
@@ -34,7 +34,7 @@ const movies = computed(() => {
 });
 // fetch movies
 if (props.type === "trending") homePageStore.fetchTrendingMovies("all", "day");
-else if (props.type === "popular") homePageStore.fetchPopularMovies();
+else if (props.type === "popular") homePageStore.fetchPopularMovies("movie");
 </script>
 
 <template>
