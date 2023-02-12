@@ -14,7 +14,7 @@ const state = reactive({
 });
 
 // fetch movies
-homePageStore.fetchTrendingMovies("all", "day");
+homePageStore.fetchTrending("all", "day");
 </script>
 
 <template>

@@ -3,7 +3,7 @@ import { useHomePageStore } from "@/stores/HomePageStore";
 import { reactive, defineProps, computed } from "vue";
 import ToggleBox from "@/components/ToggleBox.vue";
 import ScrolBox from "./ScrolBox.vue";
-import { trendingToggle, popularToggle } from "@/toggle/toggle";
+import { trendingToggle, popularToggle, topRatedToggle } from "@/toggle/toggle";
 const homePageStore = useHomePageStore();
 
 //props
@@ -23,18 +23,22 @@ const state = reactive({
 const title = computed(() => {
   if (props.type === "trending") return "Trending";
   if (props.type === "popular") return "What's Popular";
+  if (props.type === "top_rated") return "Free To Watch";
 });
 const toggle = computed(() => {
   if (props.type === "trending") return trendingToggle;
   if (props.type === "popular") return popularToggle;
+  if (props.type === "top_rated") return topRatedToggle;
 });
 const movies = computed(() => {
   if (props.type === "trending") return homePageStore.trending;
   if (props.type === "popular") return homePageStore.popular;
+  if (props.type === "top_rated") return homePageStore.topRated;
 });
 // fetch movies
-if (props.type === "trending") homePageStore.fetchTrendingMovies("all", "day");
-else if (props.type === "popular") homePageStore.fetchPopularMovies("movie");
+if (props.type === "trending") homePageStore.fetchTrending("all", "day");
+else if (props.type === "popular") homePageStore.fetchPopular("movie");
+else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
 </script>
 
 <template>

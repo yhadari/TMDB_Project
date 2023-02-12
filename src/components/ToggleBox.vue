@@ -33,13 +33,14 @@ const ScrollToLeft = () => {
 const handleClick = (toggle) => {
   ScrollToLeft();
   if (props.type === "trending") {
-    homePageStore.fetchTrendingMovies(
+    homePageStore.fetchTrending(
       toggle.type.media_type,
       toggle.type.time_window
     );
-  }
-  if (props.type === "popular") {
-    homePageStore.fetchPopularMovies(toggle.type);
+  } else if (props.type === "popular") {
+    homePageStore.fetchPopular(toggle.type);
+  } else if (props.type === "top_rated") {
+    homePageStore.fetchTopRated(toggle.type);
   }
   props.toggle.forEach((ele) => {
     ele.clicked = false;

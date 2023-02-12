@@ -42,6 +42,19 @@ export const popularToggle = ref([
   },
 ]);
 
+export const topRatedToggle = ref([
+  {
+    name: "Movies",
+    type: "movie",
+    clicked: true,
+  },
+  {
+    name: "TV",
+    type: "tv",
+    clicked: false,
+  },
+]);
+
 export const vedioToggle = ref([
   {
     name: "Streaming",
