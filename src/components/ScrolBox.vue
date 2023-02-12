@@ -22,10 +22,10 @@
   padding: 0 2.6rem;
 }
 .scrollBox::-webkit-scrollbar {
-  height: 1rem;
+  height: 0.8rem;
 }
 .scrollBox::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 0.8rem;
+  background-color: #ccc;
+  border-radius: 0.5rem;
 }
 </style>

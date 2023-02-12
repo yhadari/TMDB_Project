@@ -21,16 +21,18 @@ const props = defineProps({
 
 // methods
 const clickedBtn = computed(() => {
-  return props.type === "poster" ? "clickedBtnOne" : "clickedBtnTwo";
+  return props.type === "vedio" ? "vedio_btn" : "movie_btn";
 });
 
 const ScrollToLeft = () => {
-  let content = document.querySelector(".scrollBox");
-  content.scrollLeft = 0;
+  let content = document.querySelectorAll(".scrollBox");
+  content.forEach((userItem) => {
+    userItem.scrollLeft = 0;
+  });
 };
 const handleClick = (toggle) => {
   ScrollToLeft();
-  if (props.type === "poster") {
+  if (props.type === "trending") {
     homePageStore.fetchTrendingMovies(
       toggle.type.media_type,
       toggle.type.time_window
@@ -47,7 +49,7 @@ const handleClick = (toggle) => {
   <div class="title">
     <h1>{{ props.title }}</h1>
     <div
-      :class="`btn_box ${props.type === 'poster' && 'border_poster'} ${
+      :class="`btn_box ${props.type !== 'vedio' && 'border_movies'} ${
         props.type === 'vedio' && 'border_vedio'
       }`"
     >
@@ -93,12 +95,12 @@ const handleClick = (toggle) => {
   cursor: pointer;
   border-radius: 2rem;
 }
-.btn_box .clickedBtnOne {
+.btn_box .movie_btn {
   background-color: rgba(var(--tmdbDarkBlue), 1);
   color: rgba(var(--tmdbLightGreen), 1);
   transition: all 0.5s;
 }
-.btn_box .clickedBtnTwo {
+.btn_box .vedio_btn {
   color: rgba(var(--tmdbDarkBlue), 1);
   background-color: rgba(var(--tmdbLightGreen), 1);
   background: linear-gradient(
@@ -108,8 +110,7 @@ const handleClick = (toggle) => {
   );
   transition: all 0.5s;
 }
-
-.border_poster {
+.border_movies {
   border: 1px solid rgba(var(--tmdbDarkBlue), 1);
 }
 .border_vedio {

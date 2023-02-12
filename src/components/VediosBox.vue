@@ -2,7 +2,10 @@
 import ToggleBox from "@/components/ToggleBox.vue";
 import ScrolBox from "./ScrolBox.vue";
 import { useHomePageStore } from "@/stores/HomePageStore";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
+import { vedioToggle } from "@/toggle/toggle";
+import { LatestTrailers } from "@/api/vedioApi";
+
 const homePageStore = useHomePageStore();
 
 // data
@@ -10,54 +13,15 @@ const state = reactive({
   vedio_path: import.meta.env.VITE_TMDB_VEDIO_PATH,
 });
 
-const toggle = ref([
-  {
-    name: "En streaming",
-    type: {
-      media_type: "all",
-      time_window: "day",
-    },
-    clicked: true,
-  },
-  {
-    name: "À la télévision",
-    type: {
-      media_type: "all",
-      time_window: "week",
-    },
-    clicked: false,
-  },
-  {
-    name: "À louer",
-    type: {
-      media_type: "all",
-      time_window: "week",
-    },
-    clicked: false,
-  },
-  {
-    name: "Au cinéma",
-    type: {
-      media_type: "all",
-      time_window: "week",
-    },
-    clicked: false,
-  },
-]);
-
 // fetch movies
 homePageStore.fetchTrendingMovies("all", "day");
 </script>
 
 <template>
   <div class="container">
-    <ToggleBox title="Bandes-annonces" type="vedio" :toggle="toggle" />
+    <ToggleBox title="Latest Trailers" type="vedio" :toggle="vedioToggle" />
     <ScrolBox>
-      <div
-        class="vedioCard"
-        v-for="vedio in homePageStore.LatestTrailers"
-        :key="vedio.title"
-      >
+      <div class="vedioCard" v-for="vedio in LatestTrailers" :key="vedio.title">
         <div class="imageCard">
           <img
             class="vedioPoster"
@@ -95,6 +59,7 @@ homePageStore.fetchTrendingMovies("all", "day");
     rgba(255, 255, 255, 0) 0%,
     #fff 100%
   );
+  z-index: 10;
 }
 .vedioCard {
   height: 17.8rem;
@@ -147,12 +112,13 @@ homePageStore.fetchTrendingMovies("all", "day");
   transition: all 0.3s;
 }
 .backGround {
-  background-image: url("../assets/vedioBackground.jpg");
+  background-image: url("../assets/background.jpg");
   background-size: cover;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  opacity: 0.8;
 }
 </style>

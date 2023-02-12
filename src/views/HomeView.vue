@@ -4,14 +4,17 @@ import Wrap2022 from "../components/Wrap2022.vue";
 import MoviesCard from "../components/MoviesCard.vue";
 import VediosBox from "../components/VediosBox.vue";
 </script>
+
 <template>
   <div class="conatiner">
     <BienvenueBox class="bienvenueBox" />
     <Wrap2022 class="wrap22" />
-    <MoviesCard class="moviesCard" />
+    <MoviesCard class="moviesCard" type="trending" />
     <VediosBox class="vedioBox" />
+    <MoviesCard class="moviesCard" type="popular" />
   </div>
 </template>
+
 <style scoped>
 .conatiner {
   width: 260rem;

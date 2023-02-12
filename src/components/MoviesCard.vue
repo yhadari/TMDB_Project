@@ -1,47 +1,47 @@
 <script setup>
 import { useHomePageStore } from "@/stores/HomePageStore";
-import { reactive, ref } from "vue";
+import { reactive, defineProps, computed } from "vue";
 import ToggleBox from "@/components/ToggleBox.vue";
 import ScrolBox from "./ScrolBox.vue";
+import { trendingToggle, popularToggle } from "@/toggle/toggle";
 const homePageStore = useHomePageStore();
+
+//props
+const props = defineProps({
+  type: {
+    type: String,
+    required: true,
+  },
+});
 
 // data
 const state = reactive({
   movie_path: import.meta.env.VITE_TMDB_MOVIE_PATH,
 });
 
-const toggle = ref([
-  {
-    name: "Aujourd'hui",
-    type: {
-      media_type: "all",
-      time_window: "day",
-    },
-    clicked: true,
-  },
-  {
-    name: "Cette semaine",
-    type: {
-      media_type: "all",
-      time_window: "week",
-    },
-    clicked: false,
-  },
-]);
-
+//computed
+const title = computed(() => {
+  if (props.type === "trending") return "trending";
+  if (props.type === "popular") return "What's Popular";
+});
+const toggle = computed(() => {
+  if (props.type === "trending") return trendingToggle;
+  if (props.type === "popular") return popularToggle;
+});
+const movies = computed(() => {
+  if (props.type === "trending") return homePageStore.trending;
+  if (props.type === "popular") return homePageStore.popular;
+});
 // fetch movies
-homePageStore.fetchTrendingMovies("all", "day");
+if (props.type === "trending") homePageStore.fetchTrendingMovies("all", "day");
+else if (props.type === "popular") homePageStore.fetchPopularMovies();
 </script>
 
 <template>
   <div class="container">
-    <ToggleBox title="Tendances" type="poster" :toggle="toggle" />
+    <ToggleBox :title="title" :type="type" :toggle="toggle.value" />
     <ScrolBox>
-      <div
-        class="movieCard"
-        v-for="movie in homePageStore.trending"
-        :key="movie.id"
-      >
+      <div class="movieCard" v-for="movie in movies" :key="movie.id">
         <img
           class="moviePoster"
           :src="`${state.movie_path}${movie.poster_path}`"
@@ -72,6 +72,7 @@ homePageStore.fetchTrendingMovies("all", "day");
     rgba(255, 255, 255, 0) 0%,
     #fff 100%
   );
+  z-index: 10;
 }
 .movieCard {
   position: relative;
