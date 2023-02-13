@@ -11,7 +11,13 @@ const homePageStore = useHomePageStore();
 // data
 const state = reactive({
   vedio_path: import.meta.env.VITE_TMDB_VEDIO_PATH,
+  loading: true,
 });
+
+//methods
+const loading = (value) => {
+  state.loading = value;
+};
 
 // fetch movies
 homePageStore.fetchTrending("all", "day");
@@ -19,9 +25,18 @@ homePageStore.fetchTrending("all", "day");
 
 <template>
   <div class="container">
-    <ToggleBox title="Latest Trailers" type="vedio" :toggle="vedioToggle" />
+    <ToggleBox
+      title="Latest Trailers"
+      type="vedio"
+      :toggle="vedioToggle"
+      @loading="loading"
+    />
     <ScrolBox>
-      <div class="vedioCard" v-for="vedio in LatestTrailers" :key="vedio.title">
+      <div
+        :class="`vedioCard ${!state.loading && 'hide'}`"
+        v-for="vedio in LatestTrailers"
+        :key="vedio.title"
+      >
         <div class="imageCard">
           <img
             class="vedioPoster"
@@ -70,6 +85,11 @@ homePageStore.fetchTrending("all", "day");
   color: #fff;
   font-size: 1.25rem;
   letter-spacing: 0.8px;
+}
+.hide {
+  visibility: hidden;
+  opacity: 0;
+  transition: linear 0.8s, opacity 0.8s linear;
 }
 .imageCard {
   position: relative;

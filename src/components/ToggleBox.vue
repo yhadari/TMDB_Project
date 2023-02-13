@@ -34,25 +34,27 @@ const ScrollToLeft = () => {
   });
 };
 const handleClick = (toggle) => {
-  setTimeout(() => {
-    emits("loading", true);
-    ScrollToLeft();
-    if (props.type === "trending") {
-      homePageStore.fetchTrending(
-        toggle.type.media_type,
-        toggle.type.time_window
-      );
-    } else if (props.type === "popular") {
-      homePageStore.fetchPopular(toggle.type);
-    } else if (props.type === "top_rated") {
-      homePageStore.fetchTopRated(toggle.type);
-    }
-  }, 1000);
-  props.toggle.forEach((ele) => {
-    ele.clicked = false;
-  });
-  toggle.clicked = true;
-  emits("loading", false);
+  if (toggle.clicked !== true) {
+    setTimeout(() => {
+      emits("loading", true);
+      ScrollToLeft();
+      if (props.type === "trending") {
+        homePageStore.fetchTrending(
+          toggle.type.media_type,
+          toggle.type.time_window
+        );
+      } else if (props.type === "popular") {
+        homePageStore.fetchPopular(toggle.type);
+      } else if (props.type === "top_rated") {
+        homePageStore.fetchTopRated(toggle.type);
+      }
+    }, 1000);
+    props.toggle.forEach((ele) => {
+      ele.clicked = false;
+    });
+    toggle.clicked = true;
+    emits("loading", false);
+  }
 };
 </script>
 
