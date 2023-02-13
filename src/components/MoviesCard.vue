@@ -102,16 +102,11 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
   min-width: 15rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 1rem;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 1.5s, opacity 1.5s linear;
-  transition-delay: 0s;
 }
 .hide {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s linear 1.5s, opacity 1.5s linear;
-  transition-delay: 0s;
+  transition: linear 0.8s, opacity 0.8s linear;
 }
 .moviePoster {
   width: 100%;

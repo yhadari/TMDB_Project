@@ -3,6 +3,7 @@ import BienvenueBox from "../components/BienvenueBox.vue";
 import Wrap2022 from "../components/Wrap2022.vue";
 import MoviesCard from "../components/MoviesCard.vue";
 import VediosBox from "../components/VediosBox.vue";
+import JoinBox from "../components/JoinBox.vue";
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import VediosBox from "../components/VediosBox.vue";
     <VediosBox class="vedioBox" />
     <MoviesCard class="moviesCard" type="popular" />
     <MoviesCard class="moviesCard" type="top_rated" />
+    <JoinBox />
   </div>
 </template>
 

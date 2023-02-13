@@ -36,18 +36,18 @@ const ScrollToLeft = () => {
 const handleClick = (toggle) => {
   setTimeout(() => {
     emits("loading", true);
-  }, 200);
-  ScrollToLeft();
-  if (props.type === "trending") {
-    homePageStore.fetchTrending(
-      toggle.type.media_type,
-      toggle.type.time_window
-    );
-  } else if (props.type === "popular") {
-    homePageStore.fetchPopular(toggle.type);
-  } else if (props.type === "top_rated") {
-    homePageStore.fetchTopRated(toggle.type);
-  }
+    ScrollToLeft();
+    if (props.type === "trending") {
+      homePageStore.fetchTrending(
+        toggle.type.media_type,
+        toggle.type.time_window
+      );
+    } else if (props.type === "popular") {
+      homePageStore.fetchPopular(toggle.type);
+    } else if (props.type === "top_rated") {
+      homePageStore.fetchTopRated(toggle.type);
+    }
+  }, 1000);
   props.toggle.forEach((ele) => {
     ele.clicked = false;
   });
@@ -109,7 +109,7 @@ const handleClick = (toggle) => {
 .btn_box .movie_btn {
   background-color: rgba(var(--tmdbDarkBlue), 1);
   color: rgba(var(--tmdbLightGreen), 1);
-  transition: all 0.5s;
+  transition: all 1s;
 }
 .btn_box .vedio_btn {
   color: rgba(var(--tmdbDarkBlue), 1);
@@ -119,7 +119,7 @@ const handleClick = (toggle) => {
     rgba(var(--tmdbLighterGreen), 1),
     rgba(var(--tmdbLightGreen), 1)
   );
-  transition: all 0.5s;
+  transition: all 1s;
 }
 .border_movies {
   border: 1px solid rgba(var(--tmdbDarkBlue), 1);
