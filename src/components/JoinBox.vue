@@ -1,5 +1,7 @@
+<script setup></script>
+
 <template>
-  <div class="container">
+  <section>
     <h1 class="title">Join Today</h1>
     <div class="joinBox">
       <div class="leftPart">
@@ -26,13 +28,13 @@
         </ul>
       </div>
     </div>
-  </div>
+  </section>
 </template>
-<script setup></script>
+
 <style scoped>
-.container {
-  width: inherit;
-  height: 28rem;
+section {
+  width: 130rem;
+  height: 50rem;
   background-image: url(../assets/joinBackground.jpg);
   background-size: cover;
   background-position: 0 50%;
@@ -76,5 +78,11 @@
   width: 30%;
   font-size: 1.4rem;
   opacity: 0.7;
+}
+
+@media screen and (max-width: 2600px) {
+  section {
+    height: 27.6rem;
+  }
 }
 </style>
