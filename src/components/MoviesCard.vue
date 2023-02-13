@@ -1,6 +1,6 @@
 <script setup>
 import { useHomePageStore } from "@/stores/HomePageStore";
-import { reactive, defineProps, defineEmits, computed, ref } from "vue";
+import { reactive, computed, ref } from "vue";
 import ToggleBox from "@/components/ToggleBox.vue";
 import ScrolBox from "./ScrolBox.vue";
 import { trendingToggle, popularToggle, topRatedToggle } from "@/toggle/toggle";
@@ -102,12 +102,16 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
   min-width: 15rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 1rem;
-  transition: visibility 0.5s linear 0.5s, opacity 0.5s linear;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 1.5s, opacity 1.5s linear;
+  transition-delay: 0s;
 }
 .hide {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0.5s linear 0.5s, opacity 0.5s linear;
+  transition: visibility 0s linear 1.5s, opacity 1.5s linear;
+  transition-delay: 0s;
 }
 .moviePoster {
   width: 100%;

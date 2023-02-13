@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed } from "vue";
+import { computed } from "vue";
 import { useHomePageStore } from "@/stores/HomePageStore";
 const homePageStore = useHomePageStore();
 
@@ -36,7 +36,7 @@ const ScrollToLeft = () => {
 const handleClick = (toggle) => {
   setTimeout(() => {
     emits("loading", true);
-  }, 500);
+  }, 200);
   ScrollToLeft();
   if (props.type === "trending") {
     homePageStore.fetchTrending(
