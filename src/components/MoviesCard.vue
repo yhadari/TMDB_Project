@@ -1,6 +1,6 @@
 <script setup>
 import { useHomePageStore } from "@/stores/HomePageStore";
-import { reactive, defineProps, defineEmits, computed, ref } from "vue";
+import { reactive, defineEmits, computed, ref } from "vue";
 import ToggleBox from "@/components/ToggleBox.vue";
 import ScrolBox from "./ScrolBox.vue";
 import { trendingToggle, popularToggle, topRatedToggle } from "@/toggle/toggle";
