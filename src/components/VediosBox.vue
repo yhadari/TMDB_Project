@@ -89,7 +89,7 @@ homePageStore.fetchTrending("all", "day");
 .hide {
   visibility: hidden;
   opacity: 0;
-  transition: linear 0.8s, opacity 0.8s linear;
+  transition: linear 0.6s, opacity 0.6s linear;
 }
 .imageCard {
   position: relative;

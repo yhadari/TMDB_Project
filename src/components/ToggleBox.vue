@@ -48,7 +48,7 @@ const handleClick = (toggle) => {
       } else if (props.type === "top_rated") {
         homePageStore.fetchTopRated(toggle.type);
       }
-    }, 1000);
+    }, 800);
     props.toggle.forEach((ele) => {
       ele.clicked = false;
     });
