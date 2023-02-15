@@ -67,9 +67,10 @@
 /* Wrap 2022 style */
 
 .wrap_text {
-  border-bottom: 1px solid #fff;
-  width: 26%;
   margin-bottom: 0.8rem;
+}
+.wrap_border {
+  width: 34rem;
 }
 .check_it_box {
   width: 14rem;

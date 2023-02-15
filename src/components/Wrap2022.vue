@@ -10,6 +10,7 @@ const homePageStore = useHomePageStore();
         <div class="wrap_text">
           <h1>THAT'S A</h1>
           <h1>WRAP 2022</h1>
+          <hr class="wrap_border" />
         </div>
         <p>The best (and worst) from 2022.</p>
         <div class="check_it_box">

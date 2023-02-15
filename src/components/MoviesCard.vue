@@ -89,7 +89,7 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
 </template>
 
 <style scoped>
-.container:after {
+.container::after {
   position: absolute;
   top: 0;
   right: 0;

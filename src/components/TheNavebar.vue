@@ -5,20 +5,26 @@ import NavItemRight from "./NavItemRight.vue";
 
 <template>
   <nav>
-    <NavItemLeft />
-    <NavItemRight />
+    <div class="content">
+      <NavItemLeft />
+      <NavItemRight />
+    </div>
   </nav>
 </template>
 
 <style scoped>
 nav {
-  width: 100%;
-  height: 6.4rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 24rem;
   background-color: rgba(var(--tmdbDarkBlue), 1);
+}
+.content {
+  width: 130rem;
+  height: 6.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.6px;

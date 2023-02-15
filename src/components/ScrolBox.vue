@@ -19,7 +19,7 @@
   gap: 1.8rem;
   overflow-x: scroll;
   color: #000;
-  padding: 0 2.6rem;
+  padding: 0 4rem;
 }
 .scrollBox::-webkit-scrollbar {
   height: 0.8rem;

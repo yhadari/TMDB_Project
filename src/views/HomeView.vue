@@ -12,33 +12,38 @@ import LeaderBoard from "../components/LeaderBoard.vue";
     <BienvenueBox class="bienvenueBox" />
     <Wrap2022 class="wrap22" />
     <MoviesCard class="moviesCard trending" type="trending" />
-    <VediosBox class="vedioBox" />
+    <!-- <VediosBox class="vedioBox" />
     <MoviesCard class="moviesCard" type="popular" />
     <MoviesCard class="moviesCard" type="top_rated" />
     <JoinBox />
-    <LeaderBoard />
+    <LeaderBoard /> -->
   </div>
 </template>
 
 <style scoped>
 .container {
-  width: 260rem;
+  width: 100%;
+  max-width: 260rem;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: auto;
+  overflow: hidden;
 }
 .bienvenueBox,
 .wrap22 {
-  width: 130rem;
+  width: 100%;
+  max-width: 130rem;
   height: 35.6rem;
   color: #fff;
   font-size: 3.2rem;
   letter-spacing: 0.8px;
+  background-color: black;
 }
 .moviesCard,
 .vedioBox {
-  width: 130rem;
+  width: 100%;
+  max-width: 130rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -65,7 +70,7 @@ import LeaderBoard from "../components/LeaderBoard.vue";
 
 @media screen and (max-width: 2600px) {
   .container {
-    width: 130rem;
+    max-width: 130rem;
     grid-template-columns: 1fr;
   }
 }
