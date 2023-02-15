@@ -59,21 +59,28 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
     <ScrolBox>
       <div
         :class="`movieCard ${!state.loading && 'hide'}`"
-        v-for="movie in movies"
+        v-for="movie in movies.data"
         :key="movie.id"
       >
+        <div class="loading" v-if="movies.loading">
+          <img src="../assets/Rolling.svg" alt="loading" />
+        </div>
         <img
           class="moviePoster"
           :src="`${state.movie_path}${movie.poster_path}`"
           alt="movie poster"
+          v-if="!movies.loading"
         />
         <img
           class="tree_points"
           src="../assets/TreePoints.svg"
           alt="TreePoinst"
+          v-if="!movies.loading"
         />
-        <h2 class="movieTitle">{{ movie.title || movie.name }}</h2>
-        <p class="releaseDate">
+        <h2 v-if="!movies.loading" class="movieTitle">
+          {{ movie.title || movie.name }}
+        </h2>
+        <p v-if="!movies.loading" class="releaseDate">
           {{ movie.release_date || movie.first_air_date }}
         </p>
       </div>
@@ -131,5 +138,15 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
   font-size: 1.6rem;
   color: #555;
   letter-spacing: 0.8px;
+}
+.loading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading img {
+  width: 8rem;
+  opacity: 0.5;
 }
 </style>

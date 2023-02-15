@@ -5,13 +5,14 @@ export const useHomePageStore = defineStore("backgroundStore", {
   state: () => {
     return {
       background: "https://api.lorem.space/image/movie?w=2000&h=980",
-      trending: [],
-      popular: [],
-      topRated: [],
+      trending: { data: [], loading: true },
+      popular: { data: [], loading: true },
+      topRated: { data: [], loading: true },
     };
   },
   actions: {
     fetchTrending(media_type, time_window) {
+      this.trending.loading = true;
       axios
         .get(
           `https://api.themoviedb.org/3/trending/${media_type}/${time_window}?api_key=${
@@ -19,13 +20,17 @@ export const useHomePageStore = defineStore("backgroundStore", {
           }`
         )
         .then((res) => {
-          this.trending = res.data.results;
+          this.trending.data = res.data.results;
         })
         .catch((err) => {
           console.log("error: ", err);
+        })
+        .finally(() => {
+          this.trending.loading = false;
         });
     },
     fetchPopular(type) {
+      this.popular.loading = true;
       axios
         .get(
           `https://api.themoviedb.org/3/${type}/popular?api_key=${
@@ -33,13 +38,17 @@ export const useHomePageStore = defineStore("backgroundStore", {
           }&language=en-US&page=1`
         )
         .then((res) => {
-          this.popular = res.data.results;
+          this.popular.data = res.data.results;
         })
         .catch((err) => {
           console.log("error: ", err);
+        })
+        .finally(() => {
+          this.popular.loading = false;
         });
     },
     fetchTopRated(type) {
+      this.topRated.loading = true;
       axios
         .get(
           `https://api.themoviedb.org/3/${type}/top_rated?api_key=${
@@ -47,10 +56,13 @@ export const useHomePageStore = defineStore("backgroundStore", {
           }&language=en-US&page=1`
         )
         .then((res) => {
-          this.topRated = res.data.results;
+          this.topRated.data = res.data.results;
         })
         .catch((err) => {
           console.log("error: ", err);
+        })
+        .finally(() => {
+          this.topRated.loading = false;
         });
     },
   },
