@@ -12,11 +12,11 @@ import LeaderBoard from "../components/LeaderBoard.vue";
     <BienvenueBox class="bienvenueBox" />
     <Wrap2022 class="wrap22" />
     <MoviesCard class="moviesCard trending" type="trending" />
-    <!-- <VediosBox class="vedioBox" />
+    <VediosBox class="vedioBox" />
     <MoviesCard class="moviesCard" type="popular" />
     <MoviesCard class="moviesCard" type="top_rated" />
     <JoinBox />
-    <LeaderBoard /> -->
+    <LeaderBoard />
   </div>
 </template>
 
