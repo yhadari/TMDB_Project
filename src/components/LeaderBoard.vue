@@ -1,4 +1,7 @@
-<script setup></script>
+<script setup>
+import { LeaderBoard } from "../api/leaderBoard";
+import LeaderBoaordItem from "../components/LeaderBoardItem.vue";
+</script>
 
 <template>
   <section>
@@ -15,23 +18,39 @@
         </div>
       </div>
     </header>
+    <main>
+      <div v-for="item in LeaderBoard">
+        <LeaderBoaordItem :leaderBoard="item" />
+      </div>
+    </main>
   </section>
 </template>
 <style scoped>
 section {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
   width: 130rem;
   height: 50rem;
   padding: 3rem;
   letter-spacing: 0.6px;
+  font-weight: bold;
 }
 header {
   font-size: 1.5rem;
   display: flex;
   align-items: center;
   gap: 2.8rem;
+  height: 10%;
 }
 header h1 {
   font-weight: 600;
+}
+main {
+  height: 90%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
 }
 .edits span {
   width: 0.7rem;
@@ -45,6 +64,7 @@ header h1 {
   align-items: center;
   gap: 1rem;
   color: #222;
+  font-weight: 500;
 }
 
 .all span {

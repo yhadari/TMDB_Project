@@ -68,7 +68,6 @@ footer button {
   cursor: pointer;
 }
 .box {
-  width: 60%;
   height: 70%;
   display: flex;
   align-items: flex-end;
