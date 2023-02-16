@@ -33,7 +33,7 @@
 
 <style scoped>
 section {
-  width: 130rem;
+  max-width: 130rem;
   height: 50rem;
   background-image: url(../assets/joinBackground.jpg);
   background-size: cover;
@@ -83,6 +83,7 @@ section {
 @media screen and (max-width: 2600px) {
   section {
     height: 27.6rem;
+    height: fit-content;
   }
 }
 </style>

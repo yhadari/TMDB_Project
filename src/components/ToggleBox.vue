@@ -87,6 +87,7 @@ const handleClick = (toggle) => {
   gap: 2.6rem;
   padding: 0 2.6rem;
   z-index: 10;
+  min-width: 130rem;
 }
 .title h1 {
   font-weight: 600;

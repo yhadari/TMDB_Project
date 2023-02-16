@@ -29,14 +29,20 @@ const state = reactive({
 <template>
   <div class="box">
     <img :src="props.leaderBoard.avatar" alt="userAvatar" />
-    <div>
+    <div class="gauge_box">
       <h2>{{ props.leaderBoard.name }}</h2>
       <div class="gauge">
-        <span class="all_gauge" :style="`width: ${state.allWidth}rem`"></span>
+        <span
+          class="all_gauge"
+          :style="`max-width: ${state.allWidth}rem`"
+        ></span>
         <p>{{ props.leaderBoard.all }}</p>
       </div>
       <div class="gauge">
-        <span class="week_gauge" :style="`width: ${state.weekWidth}rem`"></span>
+        <span
+          class="week_gauge"
+          :style="`max-width: ${state.weekWidth}rem`"
+        ></span>
         <p>{{ props.leaderBoard.week }}</p>
       </div>
     </div>
@@ -46,25 +52,31 @@ const state = reactive({
 <style scoped>
 .box {
   height: 6rem;
+  width: inherit;
   display: flex;
   align-items: center;
   gap: 1rem;
   font-size: 1.2rem;
+  padding: 0 1rem;
 }
 .box img {
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
 }
+.gauge_box {
+  width: 100%;
+}
 .gauge {
   display: flex;
   align-items: center;
   gap: 1rem;
+  height: 2rem;
 }
 .gauge span {
   height: 0.8rem;
-  max-width: 46rem;
   border-radius: 1rem;
+  width: 100%;
 }
 .all_gauge {
   background: linear-gradient(

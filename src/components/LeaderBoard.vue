@@ -19,9 +19,7 @@ import LeaderBoaordItem from "../components/LeaderBoardItem.vue";
       </div>
     </header>
     <main>
-      <div v-for="item in LeaderBoard">
-        <LeaderBoaordItem :leaderBoard="item" />
-      </div>
+      <LeaderBoaordItem v-for="item in LeaderBoard" :leaderBoard="item" />
     </main>
   </section>
 </template>
@@ -30,7 +28,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  width: 130rem;
+  max-width: 130rem;
   height: 50rem;
   padding: 3rem;
   letter-spacing: 0.6px;
