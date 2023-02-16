@@ -19,7 +19,8 @@ nav {
   background-color: rgba(var(--tmdbDarkBlue), 1);
 }
 .content {
-  width: 130rem;
+  width: 100%;
+  max-width: 130rem;
   height: 6.4rem;
   display: flex;
   justify-content: space-between;
