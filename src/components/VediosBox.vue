@@ -8,25 +8,27 @@ import { LatestTrailers } from "@/api/vedioApi";
 
 const homePageStore = useHomePageStore();
 
-// data
-const state = reactive({
-  vedio_path: import.meta.env.VITE_TMDB_VEDIO_PATH,
-  loading: true,
-  url: "https://www.themoviedb.org/t/p/w1920_and_h427_face/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg",
-});
-
 //methods
 const loading = (value) => {
   state.loading = value;
 };
 const changeUrl = (url) => {
   console.log(url);
-  let newUrl = url.replace("710", "1920").replace("400", "427");
+  const newUrl = url.replace("710", "1920").replace("400", "427");
   return newUrl;
 };
-const hover = (event) => {
+const vedioPosterHover = (event) => {
   state.url = changeUrl(event.target.src);
 };
+
+// data
+const state = reactive({
+  vedio_path: import.meta.env.VITE_TMDB_VEDIO_PATH,
+  loading: true,
+  url: changeUrl(
+    `${import.meta.env.VITE_TMDB_VEDIO_PATH}${LatestTrailers[0].path}`
+  ),
+});
 
 // fetch movies
 homePageStore.fetchTrending("all", "day");
@@ -51,7 +53,7 @@ homePageStore.fetchTrending("all", "day");
             class="vedioPoster"
             :src="`${state.vedio_path}${vedio.path}`"
             alt="movie poster"
-            @mouseover="hover"
+            @mouseover="vedioPosterHover"
           />
           <img
             class="tree_points"
@@ -152,6 +154,5 @@ homePageStore.fetchTrending("all", "day");
   left: 0;
   width: 100%;
   height: 100%;
-  transition: all 1s;
 }
 </style>
