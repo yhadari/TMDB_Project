@@ -54,7 +54,7 @@ import LeaderBoard from "../components/LeaderBoard.vue";
   color: #000;
 }
 .vedioBox {
-  height: 38rem;
+  height: 36.4rem;
   color: #fff;
   padding-top: 2rem;
 }

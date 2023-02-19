@@ -2,7 +2,7 @@
 import ToggleBox from "@/components/ToggleBox.vue";
 import ScrolBox from "./ScrolBox.vue";
 import { useHomePageStore } from "@/stores/HomePageStore";
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import { vedioToggle } from "@/toggle/toggle";
 import { LatestTrailers } from "@/api/vedioApi";
 
@@ -12,11 +12,20 @@ const homePageStore = useHomePageStore();
 const state = reactive({
   vedio_path: import.meta.env.VITE_TMDB_VEDIO_PATH,
   loading: true,
+  url: "https://www.themoviedb.org/t/p/w1920_and_h427_face/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg",
 });
 
 //methods
 const loading = (value) => {
   state.loading = value;
+};
+const changeUrl = (url) => {
+  console.log(url);
+  let newUrl = url.replace("710", "1920").replace("400", "427");
+  return newUrl;
+};
+const hover = (event) => {
+  state.url = changeUrl(event.target.src);
 };
 
 // fetch movies
@@ -42,6 +51,7 @@ homePageStore.fetchTrending("all", "day");
             class="vedioPoster"
             :src="`${state.vedio_path}${vedio.path}`"
             alt="movie poster"
+            @mouseover="hover"
           />
           <img
             class="tree_points"
@@ -54,7 +64,10 @@ homePageStore.fetchTrending("all", "day");
         <p>{{ vedio.text }}</p>
       </div>
     </ScrolBox>
-    <div class="backGround"></div>
+    <div
+      class="backGround"
+      :style="`background-image: linear-gradient(to right, rgba(var(--tmdbDarkBlue), 0.75) 0%, rgba(var(--tmdbDarkBlue), 0.75) 100%), url(${state.url})`"
+    ></div>
   </div>
 </template>
 
@@ -132,13 +145,13 @@ homePageStore.fetchTrending("all", "day");
   transition: all 0.3s;
 }
 .backGround {
-  background-image: url("../assets/background.jpg");
   background-size: cover;
+  background-position: center;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.8;
+  transition: all 1s;
 }
 </style>
