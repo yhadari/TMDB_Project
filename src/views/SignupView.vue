@@ -48,29 +48,31 @@ import Footer from "../components/Footer.vue";
         get started. JavaScript is required to to continue.
       </p>
       <form action="">
-        <div>
-          <label for=""></label>
-          <input type="text" />
+        <div class="box">
+          <label for="">Username</label>
+          <InputText type="text" />
         </div>
-        <div>
-          <label for=""></label>
-          <input type="password" />
+        <div class="box">
+          <label for="">Password (4 characters minimum)</label>
+          <InputText type="password" />
         </div>
-        <div>
-          <label for=""></label>
-          <input type="password" />
+        <div class="box">
+          <label for="">Password Confirm</label>
+          <InputText type="password" />
         </div>
-        <div>
-          <label for=""></label>
-          <input type="email" />
+        <div class="box">
+          <label for="">Email</label>
+          <InputText type="email" />
         </div>
       </form>
       <p>
         By clicking the "Sign up" button below, I certify that I have read and
         agree to the TMDB terms of use and privacy policy.
       </p>
-      <button>Sign Up</button>
-      <button>Cancel</button>
+      <div class="btn">
+        <button class="sign">Sign Up</button>
+        <button @click="$router.push('/')" class="cancel">Cancel</button>
+      </div>
     </div>
   </div>
 </template>
@@ -82,14 +84,15 @@ import Footer from "../components/Footer.vue";
   max-width: 130rem;
   height: calc(100vh - var(--footerHeight) - var(--navHeight));
   margin: 0 auto;
-  padding-top: 2.4rem;
+  padding: 2.4rem;
   letter-spacing: 0.6px;
 }
 .panel {
   display: flex;
   flex-direction: column;
   height: 50%;
-  width: 21%;
+  width: 27.3rem;
+  min-width: 27.3rem;
   border-radius: var(--imageBorderRadius);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   overflow: hidden;
@@ -122,11 +125,48 @@ import Footer from "../components/Footer.vue";
   color: #000;
 }
 .signupForm {
+  width: 102.7rem;
   height: 50%;
-  width: 79%;
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+  gap: 2.6rem;
+  font-size: 1.5rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  color: #222;
+}
+form .box {
+  display: flex;
+  flex-direction: column;
+}
+.box input {
+  height: 4rem;
+  padding: 1rem;
   font-size: 1.6rem;
+  color: #444;
+}
+
+.btn button {
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: var(--imageBorderRadius);
+  padding: 0.8rem 1.6rem;
+  border: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.sign {
+  color: #fff;
+  background-color: rgba(var(--tmdbLightBlue));
+}
+.cancel {
+  color: rgba(var(--tmdbLightBlue));
+  background-color: transparent;
+}
+.sign:hover {
+  background-color: black;
 }
 </style>
