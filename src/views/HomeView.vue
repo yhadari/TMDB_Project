@@ -67,7 +67,6 @@ import LeaderBoard from "../components/LeaderBoard.vue";
   background-size: cover;
   background-position: 0 50%;
 }
-
 @media screen and (max-width: 2600px) {
   .container {
     max-width: 130rem;

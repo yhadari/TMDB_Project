@@ -28,6 +28,8 @@ html {
   --accountYellow: 210, 144, 1;
   --accountRed: 212, 2, 66;
   --imageBorderRadius: 8px;
+  --footerHeight: 32.4rem;
+  --navHeight: 6.4rem;
 
   font-size: 62.5%;
 }

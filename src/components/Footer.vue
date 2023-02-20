@@ -46,7 +46,7 @@ footer {
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 32.4rem;
+  height: var(--footerHeight);
   color: #fff;
   background-color: rgba(var(--tmdbDarkBlue), 1);
   font-size: 2rem;

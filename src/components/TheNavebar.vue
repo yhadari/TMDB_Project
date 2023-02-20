@@ -21,7 +21,7 @@ nav {
 .content {
   width: 100%;
   max-width: 130rem;
-  height: 6.4rem;
+  height: var(--navHeight);
   display: flex;
   justify-content: space-between;
   align-items: center;

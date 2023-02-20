@@ -29,7 +29,7 @@ const showPlusBtn = () => {
     />
     <LinkItem
       name="Join TMDB"
-      :links="[{ name: 'Rejoindre TMDB', to: '/singup' }]"
+      :links="[{ name: 'Rejoindre TMDB', to: '/signup' }]"
       type="right"
     />
   </div>
