@@ -7,7 +7,7 @@
           src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
           alt="logo"
         />
-        <button>JOIN THE COMMUNITY</button>
+        <router-link class="join" to="/signup">JOIN THE COMMUNITY</router-link>
       </div>
       <div class="links">
         <ul>
@@ -55,18 +55,6 @@ footer img {
   width: 12.6rem;
   height: 12.6rem;
 }
-footer button {
-  font-size: 1.65rem;
-  font-weight: bold;
-  text-decoration: none;
-  border: none;
-  width: 22rem;
-  height: 4.2rem;
-  background-color: #fff;
-  color: rgba(var(--tmdbLightBlue));
-  border-radius: 0.6rem;
-  cursor: pointer;
-}
 .box {
   width: 100%;
   max-width: 130rem;
@@ -81,6 +69,20 @@ footer button {
   flex-direction: column;
   align-items: flex-end;
   gap: 3rem;
+}
+.join {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22rem;
+  height: 4.2rem;
+  font-size: 1.86rem;
+  font-weight: bold;
+  text-decoration: none;
+  background-color: #fff;
+  color: rgba(var(--tmdbLightBlue));
+  border-radius: 0.6rem;
+  cursor: pointer;
 }
 .links {
   display: flex;
