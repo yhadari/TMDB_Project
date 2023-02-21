@@ -1,6 +1,4 @@
-<script setup>
-import Footer from "../components/Footer.vue";
-</script>
+<script setup></script>
 <template>
   <div class="container">
     <div class="panel">
@@ -42,11 +40,13 @@ import Footer from "../components/Footer.vue";
       </ul>
     </div>
     <div class="signupForm">
-      <h2>Sign up for an account</h2>
-      <p>
-        Signing up for an account is free and easy. Fill out the form below to
-        get started. JavaScript is required to to continue.
-      </p>
+      <div>
+        <h2>Sign up for an account</h2>
+        <p>
+          Signing up for an account is free and easy. Fill out the form below to
+          get started. JavaScript is required to to continue.
+        </p>
+      </div>
       <form action="">
         <div class="box">
           <label for="">Username</label>
@@ -131,6 +131,9 @@ import Footer from "../components/Footer.vue";
   flex-direction: column;
   gap: 2.6rem;
   font-size: 1.5rem;
+}
+.signupForm h2 {
+  margin-bottom: 1rem;
 }
 form {
   display: flex;
