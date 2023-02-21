@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-export const useHomePageStore = defineStore("backgroundStore", {
+export const useHomePageStore = defineStore("homePageStore", {
   state: () => {
     return {
       background: "https://api.lorem.space/image/movie?w=2000&h=980",
@@ -11,6 +11,7 @@ export const useHomePageStore = defineStore("backgroundStore", {
     };
   },
   actions: {
+    //GET
     fetchTrending(media_type, time_window) {
       this.trending.loading = true;
       axios

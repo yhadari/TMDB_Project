@@ -1,4 +1,16 @@
-<script setup></script>
+<script setup>
+import { reactive } from "vue";
+import { usesignupStore } from "@/stores/signupStore";
+
+const signupStore = usesignupStore();
+//data
+const state = reactive({
+  username: "",
+  password: "",
+  confirmPassword: "",
+  email: "",
+});
+</script>
 <template>
   <div class="container">
     <div class="panel">
@@ -50,19 +62,19 @@
       <form action="">
         <div class="box">
           <label for="">Username</label>
-          <InputText type="text" />
+          <InputText type="text" v-model="state.username" />
         </div>
         <div class="box">
           <label for="">Password (4 characters minimum)</label>
-          <InputText type="password" />
+          <InputText type="password" v-model="state.password" />
         </div>
         <div class="box">
           <label for="">Password Confirm</label>
-          <InputText type="password" />
+          <InputText type="password" v-model="state.confirmPassword" />
         </div>
         <div class="box">
           <label for="">Email</label>
-          <InputText type="email" />
+          <InputText type="email" v-model="state.email" />
         </div>
       </form>
       <p>
@@ -70,7 +82,7 @@
         agree to the TMDB terms of use and privacy policy.
       </p>
       <div class="btn">
-        <button class="sign">Sign Up</button>
+        <button class="sign" @click="signupStore.signup(state)">Sign Up</button>
         <button @click="$router.push('/')" class="cancel">Cancel</button>
       </div>
     </div>
@@ -90,7 +102,7 @@
 .panel {
   display: flex;
   flex-direction: column;
-  height: 50%;
+  height: 62rem;
   width: 27.3rem;
   min-width: 27.3rem;
   border-radius: var(--imageBorderRadius);

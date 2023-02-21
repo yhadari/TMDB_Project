@@ -12,7 +12,9 @@
           theatres, on TV or available on popular streaming services like
           Netflix, Amazon Prime Video, FlixOlé, Zee5, and MUBI.
         </p>
-        <button class="JoinBtn">Sign Up</button>
+        <button class="JoinBtn" @click="$router.push('/signup')">
+          Sign Up
+        </button>
       </div>
       <div class="rightPart">
         <ul>
