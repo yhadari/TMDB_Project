@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+
 const app = express();
 const port = 3000;
 
@@ -19,7 +20,7 @@ const helloWorld = (req, res) => {
 };
 const createUser = (req, res) => {
   console.log(req.body);
-  res.send("Done");
+  res.send(req.body);
 };
 
 //-----------------ROUTES-----------------
