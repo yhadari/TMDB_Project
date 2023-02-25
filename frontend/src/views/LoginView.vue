@@ -1,4 +1,13 @@
-<script setup></script>
+<script setup>
+import { reactive } from "vue";
+import { useLoginStore } from "@/stores/LoginStore";
+
+const state = reactive({
+  username: "",
+  password: "",
+});
+const loginStore = useLoginStore();
+</script>
 <template>
   <div class="container">
     <div>
@@ -20,15 +29,15 @@
     <form action="">
       <div class="box">
         <label for="">Username</label>
-        <InputText type="text" />
+        <InputText type="text" v-model="state.username" />
       </div>
       <div class="box">
         <label for="">Password</label>
-        <InputText type="password" />
+        <InputText type="password" v-model="state.password" />
       </div>
     </form>
     <div class="btn">
-      <button class="login">Login</button>
+      <button class="login" @click="loginStore.login(state)">Login</button>
       <button @click="$router.push('/')" class="reset">Reset password</button>
     </div>
   </div>

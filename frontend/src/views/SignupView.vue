@@ -1,8 +1,8 @@
 <script setup>
 import { reactive } from "vue";
-import { usesignupStore } from "@/stores/signupStore";
+import { useSignupStore } from "@/stores/signupStore";
 
-const signupStore = usesignupStore();
+const signupStore = useSignupStore();
 //data
 const state = reactive({
   username: "",
