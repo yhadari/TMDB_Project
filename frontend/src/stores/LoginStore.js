@@ -7,8 +7,12 @@ export const useLoginStore = defineStore("loginStore", {
     //POST
     login(info) {
       console.log("info: ", info);
-      axios
-        .post("http://localhost:3000/api/login", info)
+      axios({
+        method: "POST",
+        url: "http://localhost:3000/api/login",
+        data: info,
+        withCredentials: true,
+      })
         .then((res) => {
           console.log("res", res);
         })
