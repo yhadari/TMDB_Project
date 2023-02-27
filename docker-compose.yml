@@ -1,7 +1,38 @@
 version: "3.8"
+
 services:
+  frontend:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./deployments/frontend/Dockerfile
+    ports:
+      - 5173:5173
+    depends_on:
+      - backend
+    links:
+      - backend
+    networks:
+      - front-network
+
+  backend:
+    container_name: express
+    build:
+      context: .
+      dockerfile: ./deployments/backend/Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - front-network
+      - back-network
+
   db:
     image: postgres:14.1-alpine
+    container_name: db
     restart: always
     environment:
       - POSTGRES_USER=admin
@@ -11,6 +42,11 @@ services:
       - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
+
 volumes:
   db:
     driver: local
+
+networks:
+  front-network:
+  back-network:

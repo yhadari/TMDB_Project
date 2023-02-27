@@ -7,7 +7,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "start:prisma-studio": "pm2 start npm --name prisma-studio-dev -- run prisma-studio-dev",
-    "prisma-studio-dev": "nodemon --watch prisma --exec npx prisma studio"
+    "prisma-studio-dev": "nodemon --watch prisma --exec npx prisma studio",
+    "start:migrate:dev": "npx prisma migrate dev --name init"
   },
   "keywords": [],
   "author": "",
