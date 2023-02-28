@@ -11,6 +11,26 @@ services:
       - "/app/node_modules"
     ports:
       - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - front-network
+
+  backend:
+    container_name: express-app
+    build:
+      context: .
+      dockerfile: ./deployments/backend/Dockerfile
+    volumes:
+      - "./backend:/app"
+      - "/app/node_modules"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - front-network
+      - back-network
 
   db:
     image: postgres:14.1-alpine
@@ -24,7 +44,13 @@ services:
       - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
+    networks:
+      - back-network
 
 volumes:
   db:
     driver: local
+
+networks:
+  front-network:
+  back-network:
