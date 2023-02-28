@@ -1,5 +1,17 @@
 version: "3.8"
 
+services:
+  frontend:
+    container_name: vue-app
+    build:
+      context: .
+      dockerfile: ./deployments/frontend/Dockerfile
+    volumes:
+      - "./frontend:/app"
+      - "/app/node_modules"
+    ports:
+      - "5173:5173"
+
   db:
     image: postgres:14.1-alpine
     container_name: db
@@ -16,4 +28,3 @@ version: "3.8"
 volumes:
   db:
     driver: local
-
