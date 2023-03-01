@@ -8,6 +8,7 @@ COPY ./backend/package.json /app/package.json
 RUN npm install
 
 # start app
+RUN npx prisma generate
 RUN npm run start:migrate:dev
 RUN npm run start:prisma-studio
 CMD ["npm", "run", "dev"]
