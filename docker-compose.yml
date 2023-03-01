@@ -1,60 +1,45 @@
 version: "3.8"
 
 services:
-  frontend:
-    container_name: vue-app
-    build:
-      context: .
-      dockerfile: ./deployments/frontend/Dockerfile
-    ports:
-      - "5173:5173"
-    depends_on:
-      - backend
-    links:
-      - backend
-    networks:
-      - front-network
+  db:
+    image: postgres:14.1-alpine
+    container_name: db
+    restart: always
     volumes:
-      - "./frontend:/app"
-      - "/app/node_modules"
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=tmdb
 
   backend:
-    container_name: express-app
     build:
       context: .
       dockerfile: ./deployments/backend/Dockerfile
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    links:
-      - db
-    networks:
-      - front-network
-      - back-network
+    container_name: backend
     volumes:
       - "./backend:/app"
       - "/app/node_modules"
-
-  db:
-    container_name: db
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      - POSTGRES_DB=tmdb
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
     ports:
-      - "5432:5432"
-    networks:
-      - back-network
+      - 3000:3000
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./deployments/frontend/Dockerfile
+    container_name: frontend
     volumes:
-      - db:/var/lib/postgresql/data
+      - "./frontend:/app"
+      - "/app/node_modules"
+    ports:
+      - 5173:5173
+    depends_on:
+      - backend
 
 volumes:
   db:
     driver: local
-
-networks:
-  front-network:
-  back-network:

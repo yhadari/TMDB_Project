@@ -4,12 +4,14 @@ FROM node:18.13.0
 WORKDIR /app
 
 # install and cache app dependencies
-COPY ./backend/package.json /app/package.json
+COPY ./backend .
 RUN npm install
 
 # start app
-RUN npx prisma generate
-RUN npm run start:migrate:dev
+
+# Run the shell script
+RUN chmod +x migrate.sh
+RUN ./migrate.sh
+
 RUN npm run start:prisma-studio
 CMD ["npm", "run", "dev"]
-# CMD ["tail", "-f"]

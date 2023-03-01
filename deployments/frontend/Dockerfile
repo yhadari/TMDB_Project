@@ -4,7 +4,7 @@ FROM node:18.13.0
 WORKDIR /app
 
 #install and cache app dependencies
-COPY ./frontend/package.json /app/package.json
+COPY ./frontend .
 RUN npm install
 
 # start app
