@@ -1,6 +1,9 @@
 #!/bin/bash
 
+echo "Running Prisma migration..."
 echo "y" | npm run start:migrate:dev
-npx prisma studio
+echo "Prisma migration complete."
+
+npm run start:prisma-studio
 
 exec $@

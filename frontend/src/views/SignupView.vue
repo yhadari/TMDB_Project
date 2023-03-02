@@ -102,7 +102,8 @@ const state = reactive({
 .panel {
   display: flex;
   flex-direction: column;
-  height: 62rem;
+  height: 50%;
+  min-height: 62rem;
   width: 27.3rem;
   min-width: 27.3rem;
   border-radius: var(--imageBorderRadius);
