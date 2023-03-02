@@ -15,7 +15,7 @@ const state = reactive({
   <div class="container">
     <div class="panel">
       <div class="title">
-        <p>Benefits of being a member test</p>
+        <p>Benefits of being a member</p>
       </div>
       <ul class="list">
         <div class="listBox">
@@ -66,11 +66,7 @@ const state = reactive({
         </div>
         <div class="box">
           <label for="">Password (4 characters minimum)</label>
-          <InputText type="password" v-model="state.password" />
-        </div>
-        <div class="box">
-          <label for="">Password Confirm</label>
-          <InputText type="password" v-model="state.confirmPassword" />
+          <PasswordInput v-model="state.password" :toggleMask="true" :feedback="false"/>
         </div>
         <div class="box">
           <label for="">Email</label>
@@ -99,6 +95,7 @@ const state = reactive({
   padding: 2.4rem;
   letter-spacing: 0.6px;
 }
+
 .panel {
   display: flex;
   flex-direction: column;
@@ -110,6 +107,7 @@ const state = reactive({
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   overflow: hidden;
 }
+
 .panel .title {
   width: 100%;
   height: 15%;
@@ -118,6 +116,7 @@ const state = reactive({
   font-size: 2.2rem;
   background-color: rgba(var(--tmdbLightBlue));
 }
+
 .list {
   height: 85%;
   width: 100%;
@@ -128,15 +127,18 @@ const state = reactive({
   font-size: 1.6rem;
   list-style: none;
 }
+
 .listBox {
   display: flex;
   gap: 0.6rem;
   color: #333;
 }
+
 .listBox span {
   font-size: 2rem;
   color: #000;
 }
+
 .signupForm {
   width: 102.7rem;
   height: 50%;
@@ -145,21 +147,27 @@ const state = reactive({
   gap: 2.6rem;
   font-size: 1.5rem;
 }
+
 .signupForm h2 {
   margin-bottom: 1rem;
 }
+
 form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
   color: #222;
 }
+
 form .box {
   display: flex;
   flex-direction: column;
 }
-.box input {
+
+.box input,
+::v-deep(.p-password input) {
   height: 4rem;
+  width: 100%;
   padding: 1rem;
   font-size: 1.6rem;
   color: #444;
@@ -174,14 +182,17 @@ form .box {
   transition: all 0.3s;
   cursor: pointer;
 }
+
 .sign {
   color: #fff;
   background-color: rgba(var(--tmdbLightBlue));
 }
+
 .cancel {
   color: rgba(var(--tmdbLightBlue));
   background-color: transparent;
 }
+
 .sign:hover {
   background-color: black;
 }

@@ -1,4 +1,5 @@
 <script setup></script>
+
 <template>
   <footer>
     <div class="box">
@@ -41,6 +42,7 @@
     </div>
   </footer>
 </template>
+
 <style scoped>
 footer {
   display: flex;

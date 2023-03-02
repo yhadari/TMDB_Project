@@ -18,6 +18,7 @@
   display: flex;
   gap: 1.8rem;
   overflow-x: scroll;
+  overflow-y: hidden;
   color: #000;
   padding: 0 4rem;
 }
