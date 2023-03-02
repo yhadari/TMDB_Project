@@ -15,7 +15,7 @@ const state = reactive({
   <div class="container">
     <div class="panel">
       <div class="title">
-        <p>Benefits of being a member</p>
+        <p>Benefits of being a member test</p>
       </div>
       <ul class="list">
         <div class="listBox">
