@@ -9,6 +9,5 @@ RUN npm install
 
 # start app
 RUN chmod +x migrate.sh
-RUN npm run start:prisma-studio
 ENTRYPOINT ["sh", "migrate.sh"]
 CMD ["npm", "run", "dev"]
