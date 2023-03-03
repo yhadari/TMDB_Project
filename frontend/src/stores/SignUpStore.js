@@ -6,11 +6,11 @@ export const useSignupStore = defineStore("signupStore", {
   actions: {
     //POST
     signup(info) {
-      console.log("info: ", info);
       axios
         .post("http://localhost:3000/api/signup", info)
         .then((res) => {
           console.log("res", res);
+          console.log("status", res.status);
         })
         .catch((err) => {
           console.log("error: ", err);

@@ -28,6 +28,7 @@ router.post("/signup", async (req, res, next) => {
         username: req.body.username,
         password: hashedPassword,
         email: req.body.email,
+        // test: req.body.email,
       },
     });
     res.json({ message: "Signed in successfully 😊 👌" });

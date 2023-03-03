@@ -8,6 +8,7 @@ COPY ./backend .
 RUN npm install
 
 # start app
+# RUN npx prisma generate
 RUN chmod +x migrate.sh
 ENTRYPOINT ["sh", "migrate.sh"]
 CMD ["npm", "run", "dev"]

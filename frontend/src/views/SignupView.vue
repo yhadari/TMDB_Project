@@ -5,11 +5,21 @@ import { useSignupStore } from "@/stores/signupStore";
 const signupStore = useSignupStore();
 //data
 const state = reactive({
+  error: false,
   username: "",
   password: "",
-  confirmPassword: "",
   email: "",
 });
+
+//methods
+
+const signup = ()=> {
+  if(state.username && state.password && state.email)
+    signupStore.signup(state);
+  else 
+    state.error = true;
+}
+
 </script>
 <template>
   <div class="container">
@@ -59,7 +69,21 @@ const state = reactive({
           get started. JavaScript is required to to continue.
         </p>
       </div>
-      <form action="">
+      <div class="errorCard" v-if="state.error">
+        <div class="errorTitle">
+          <p>There was an error processing your signup</p>
+        </div>
+        <div class="errorDetails">
+          <ul>
+            <li v-if="!state.username">Username is required</li>
+            <li v-if="!state.password">Password is required</li>
+            <li v-if="!state.email">Email is required</li>
+            <!-- <li>Username has already been taken</li>
+            <li>Email has already been taken</li> -->
+          </ul>
+        </div>
+      </div>
+      <form>
         <div class="box">
           <label for="">Username</label>
           <InputText type="text" v-model="state.username" />
@@ -78,7 +102,7 @@ const state = reactive({
         agree to the TMDB terms of use and privacy policy.
       </p>
       <div class="btn">
-        <button class="sign" @click="signupStore.signup(state)">Sign Up</button>
+        <button class="sign" @click="signup">Sign Up</button>
         <button @click="$router.push('/')" class="cancel">Cancel</button>
       </div>
     </div>
@@ -141,7 +165,6 @@ const state = reactive({
 
 .signupForm {
   width: 102.7rem;
-  height: 50%;
   display: flex;
   flex-direction: column;
   gap: 2.6rem;
@@ -172,7 +195,12 @@ form .box {
   font-size: 1.6rem;
   color: #444;
 }
-
+::v-deep(.p-password i) {
+  font-size: 2rem;
+  top: 1.5rem;
+  right: 1.5rem;
+  cursor: pointer;
+}
 .btn button {
   font-size: 1.5rem;
   font-weight: 600;
@@ -195,5 +223,29 @@ form .box {
 
 .sign:hover {
   background-color: black;
+}
+
+.errorCard{
+  width: 100%;
+  border-radius: var(--imageBorderRadius);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  overflow: hidden;
+}
+.errorTitle{
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  color: #fff;
+  background-color: rgba(var(--accountRed), 1);
+  height: 5.6rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.errorDetails{
+  padding: 1.6rem;
+  padding-left: 4rem;
+}
+.errorDetails li:not(:last-child){
+  margin-bottom: 0.8rem;
 }
 </style>
