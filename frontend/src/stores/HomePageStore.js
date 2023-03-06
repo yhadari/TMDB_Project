@@ -16,8 +16,7 @@ export const useHomePageStore = defineStore("homePageStore", {
       this.trending.loading = true;
       axios
         .get(
-          `https://api.themoviedb.org/3/trending/${media_type}/${time_window}?api_key=${
-            import.meta.env.VITE_TMDB_KEY_VALUE
+          `https://api.themoviedb.org/3/trending/${media_type}/${time_window}?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE
           }`
         )
         .then((res) => {
@@ -34,8 +33,7 @@ export const useHomePageStore = defineStore("homePageStore", {
       this.popular.loading = true;
       axios
         .get(
-          `https://api.themoviedb.org/3/${type}/popular?api_key=${
-            import.meta.env.VITE_TMDB_KEY_VALUE
+          `https://api.themoviedb.org/3/${type}/popular?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE
           }&language=en-US&page=1`
         )
         .then((res) => {
@@ -52,8 +50,7 @@ export const useHomePageStore = defineStore("homePageStore", {
       this.topRated.loading = true;
       axios
         .get(
-          `https://api.themoviedb.org/3/${type}/top_rated?api_key=${
-            import.meta.env.VITE_TMDB_KEY_VALUE
+          `https://api.themoviedb.org/3/${type}/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE
           }&language=en-US&page=1`
         )
         .then((res) => {

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 
 export const useLoginStore = defineStore("loginStore", {
-  state: () => {},
+  state: () => { },
   actions: {
     //POST
     login(info) {
@@ -14,6 +14,7 @@ export const useLoginStore = defineStore("loginStore", {
       })
         .then((res) => {
           console.log("res", res);
+          console.log('yassine');
         })
         .catch((err) => {
           console.log("error: ", err);

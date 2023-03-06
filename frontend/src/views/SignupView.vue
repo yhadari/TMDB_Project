@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from "vue";
-import { useSignupStore } from "@/stores/signupStore";
+import { useSignupStore } from "@/stores/SignupStore";
 
 const signupStore = useSignupStore();
 //data
@@ -13,13 +13,16 @@ const state = reactive({
 
 //methods
 
-const signup = ()=> {
-  if(state.username && state.password && state.email)
-    signupStore.signup(state);
-  else 
-    state.error = true;
-}
-
+const signup = async () => {
+  state.error = false;
+  if (state.username && state.password && state.email) {
+    const response = await signupStore.signup(state);
+    // console.log('response: ', response);
+    // if(response.status === 200){
+    //   $router.push("/login");
+    // }
+  } else state.error = true;
+};
 </script>
 <template>
   <div class="container">
@@ -71,7 +74,7 @@ const signup = ()=> {
       </div>
       <div class="errorCard" v-if="state.error">
         <div class="errorTitle">
-          <p>There was an error processing your signup</p>
+          <p>&#33; There was an error processing your signup</p>
         </div>
         <div class="errorDetails">
           <ul>
@@ -90,7 +93,11 @@ const signup = ()=> {
         </div>
         <div class="box">
           <label for="">Password (4 characters minimum)</label>
-          <PasswordInput v-model="state.password" :toggleMask="true" :feedback="false"/>
+          <PasswordInput
+            v-model="state.password"
+            :toggleMask="true"
+            :feedback="false"
+          />
         </div>
         <div class="box">
           <label for="">Email</label>
@@ -116,6 +123,7 @@ const signup = ()=> {
   max-width: 130rem;
   height: calc(100vh - var(--footerHeight) - var(--navHeight));
   margin: 0 auto;
+
   padding: 2.4rem;
   letter-spacing: 0.6px;
 }
@@ -225,13 +233,13 @@ form .box {
   background-color: black;
 }
 
-.errorCard{
+.errorCard {
   width: 100%;
   border-radius: var(--imageBorderRadius);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
 }
-.errorTitle{
+.errorTitle {
   display: flex;
   align-items: center;
   padding-left: 2rem;
@@ -241,11 +249,11 @@ form .box {
   font-size: 1.8rem;
   font-weight: 600;
 }
-.errorDetails{
+.errorDetails {
   padding: 1.6rem;
   padding-left: 4rem;
 }
-.errorDetails li:not(:last-child){
+.errorDetails li:not(:last-child) {
   margin-bottom: 0.8rem;
 }
 </style>

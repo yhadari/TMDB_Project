@@ -13,6 +13,7 @@
     "pinia": "^2.0.28",
     "primeicons": "^6.0.1",
     "primevue": "^3.23.0",
+    "vite-plugin-full-reload": "^1.0.5",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
