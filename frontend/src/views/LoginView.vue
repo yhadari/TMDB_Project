@@ -49,7 +49,7 @@ const loginStore = useLoginStore();
   gap: 2.2rem;
   width: 100%;
   max-width: 130rem;
-  height: calc(100vh - var(--footerHeight) - var(--navHeight));
+  min-height: calc(100vh - var(--footerHeight) - var(--navHeight));
   margin: 0 auto;
   padding: 2.8rem;
   letter-spacing: 0.6px;

@@ -15,20 +15,19 @@ const prisma = new PrismaClient();
 router.post("/signup", async (req, res, next) => {
   const user = await prisma.user.findUnique({
     where: {
-      username: req.body.username,
+      username: req.body.usernameInput,
     },
   });
   if (user) {
     return res.status(400).json({ error: "username already exist" });
   }
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash(req.body.passwordInput, 10);
     await prisma.user.create({
       data: {
-        username: req.body.username,
+        username: req.body.usernameInput,
         password: hashedPassword,
-        email: req.body.email,
-        // test: req.body.email,
+        email: req.body.emailInput,
       },
     });
     res.json({ message: "Signed in successfully 😊 👌" });

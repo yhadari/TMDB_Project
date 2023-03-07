@@ -1,27 +1,60 @@
 <script setup>
-import { reactive } from "vue";
-import { useSignupStore } from "@/stores/SignupStore";
+import { reactive } from "vue"
+import { useSignupStore } from "@/stores/SignupStore"
 
 const signupStore = useSignupStore();
 //data
 const state = reactive({
   error: false,
-  username: "",
-  password: "",
-  email: "",
+  errorList:[{
+    input: "username",
+    message: "Username is required",
+    error: true,
+  },
+  {
+    input: "password",
+    message: "Password is required",
+    error: true,
+  },
+  {
+    input: "email",
+    message: "Email is required",
+    error: true,
+  },
+  // {
+  //   input: "username",
+  //   message: "Username has already been taken",
+  //   error: false,
+  // },
+  // {
+  //   input: "email",
+  //   message: "Email has already been taken",
+  //   error: false,
+  // }
+],
+  usernameInput: "",
+  passwordInput: "",
+  emailInput: "",
 });
 
 //methods
 
-const signup = async () => {
-  state.error = false;
-  if (state.username && state.password && state.email) {
-    const response = await signupStore.signup(state);
-    // console.log('response: ', response);
-    // if(response.status === 200){
-    //   $router.push("/login");
-    // }
-  } else state.error = true;
+const signup = () => {
+
+  state.error = true
+
+  const username = state.errorList.find((error)=> error.input === "username")
+  const password = state.errorList.find((error)=> error.input === "password")
+  const email = state.errorList.find((error)=> error.input === "email")
+
+  username.error = state.usernameInput ? false : true
+  password.error = state.passwordInput ? false : true
+  email.error = state.emailInput ? false : true
+
+  if (state.usernameInput && state.passwordInput && state.emailInput){
+    state.error = false
+    signupStore.signup(state)
+  }
 };
 </script>
 <template>
@@ -78,30 +111,26 @@ const signup = async () => {
         </div>
         <div class="errorDetails">
           <ul>
-            <li v-if="!state.username">Username is required</li>
-            <li v-if="!state.password">Password is required</li>
-            <li v-if="!state.email">Email is required</li>
-            <!-- <li>Username has already been taken</li>
-            <li>Email has already been taken</li> -->
+            <li v-for="error in state.errorList.filter(list => list.error)" :key="error.message">{{ error.message }}</li>
           </ul>
         </div>
       </div>
       <form>
         <div class="box">
           <label for="">Username</label>
-          <InputText type="text" v-model="state.username" />
+          <InputText type="text" v-model="state.usernameInput" />
         </div>
         <div class="box">
           <label for="">Password (4 characters minimum)</label>
           <PasswordInput
-            v-model="state.password"
+            v-model="state.passwordInput"
             :toggleMask="true"
             :feedback="false"
           />
         </div>
         <div class="box">
           <label for="">Email</label>
-          <InputText type="email" v-model="state.email" />
+          <InputText type="email" v-model="state.emailInput" />
         </div>
       </form>
       <p>
@@ -109,7 +138,9 @@ const signup = async () => {
         agree to the TMDB terms of use and privacy policy.
       </p>
       <div class="btn">
-        <button class="sign" @click="signup">Sign Up</button>
+        <router-link :to="`${state.error ? '/signup' : '/login'}`" class="sign">
+          <button class="sign" @click="signup">Sign Up</button>
+        </router-link>
         <button @click="$router.push('/')" class="cancel">Cancel</button>
       </div>
     </div>
@@ -121,9 +152,8 @@ const signup = async () => {
   gap: 3.6rem;
   width: 100%;
   max-width: 130rem;
-  height: calc(100vh - var(--footerHeight) - var(--navHeight));
+  min-height: calc(100vh - var(--footerHeight) - var(--navHeight));
   margin: 0 auto;
-
   padding: 2.4rem;
   letter-spacing: 0.6px;
 }
@@ -131,8 +161,8 @@ const signup = async () => {
 .panel {
   display: flex;
   flex-direction: column;
-  height: 50%;
-  min-height: 62rem;
+  min-height: 50%;
+  height: 62rem;
   width: 27.3rem;
   min-width: 27.3rem;
   border-radius: var(--imageBorderRadius);
