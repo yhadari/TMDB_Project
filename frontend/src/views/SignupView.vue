@@ -1,61 +1,89 @@
 <script setup>
-import { reactive } from "vue"
-import { useSignupStore } from "@/stores/SignupStore"
+import { reactive } from 'vue'
+import { useSignupStore } from '@/stores/SignupStore'
+import router from '../router/index'
+import { computed } from 'vue'
 
-const signupStore = useSignupStore();
+const signupStore = useSignupStore()
 //data
 const state = reactive({
   error: false,
-  errorList:[{
-    input: "username",
-    message: "Username is required",
-    error: true,
-  },
-  {
-    input: "password",
-    message: "Password is required",
-    error: true,
-  },
-  {
-    input: "email",
-    message: "Email is required",
-    error: true,
-  },
-  // {
-  //   input: "username",
-  //   message: "Username has already been taken",
-  //   error: false,
-  // },
-  // {
-  //   input: "email",
-  //   message: "Email has already been taken",
-  //   error: false,
-  // }
-],
-  usernameInput: "",
-  passwordInput: "",
-  emailInput: "",
-});
+  errorList: [
+    {
+      type: 'username_req',
+      message: 'Username is required',
+      error: true
+    },
+    {
+      type: 'password_req',
+      message: 'Password is required',
+      error: true
+    },
+    {
+      type: 'email_req',
+      message: 'Email is required',
+      error: true
+    },
+    {
+      type: 'username_taken',
+      message: 'Username has already been taken',
+      error: false
+    },
+    {
+      type: 'email_taken',
+      message: 'Email has already been taken',
+      error: false
+    },
+    {
+      type: 'password_len',
+      message: 'Password needs to be at least 4 characters long',
+      error: false
+    }
+  ],
+  usernameInput: '',
+  passwordInput: '',
+  emailInput: ''
+})
 
 //methods
 
-const signup = () => {
+const signup = async () => {
+  const username_req = state.errorList.find((error) => error.type === 'username_req')
+  const password_req = state.errorList.find((error) => error.type === 'password_req')
+  const email_req = state.errorList.find((error) => error.type === 'email_req')
+  const username_taken = state.errorList.find((error) => error.type === 'username_taken')
+  const email_taken = state.errorList.find((error) => error.type === 'email_taken')
+  const password_len = state.errorList.find((error) => error.type === 'password_len')
 
-  state.error = true
+  username_req.error = state.usernameInput ? false : true
+  username_taken.error = !state.usernameInput ? false : username_taken.error
+  password_req.error = state.passwordInput ? false : true
+  email_req.error = state.emailInput ? false : true
+  email_taken.error = !state.emailInput ? false : email_taken.error
+  password_len.error = !state.passwordInput || state.passwordInput.length >= 4 ? false : true
 
-  const username = state.errorList.find((error)=> error.input === "username")
-  const password = state.errorList.find((error)=> error.input === "password")
-  const email = state.errorList.find((error)=> error.input === "email")
-
-  username.error = state.usernameInput ? false : true
-  password.error = state.passwordInput ? false : true
-  email.error = state.emailInput ? false : true
-
-  if (state.usernameInput && state.passwordInput && state.emailInput){
-    state.error = false
-    signupStore.signup(state)
-  }
-};
+  if (!username_req.error && !password_req.error && !email_req.error && !password_len.error) {
+    try {
+      state.error = false
+      await signupStore.signup(state)
+      username_taken.error = false
+      email_taken.error = false
+      router.push('/login')
+    } catch (error) {
+      state.error = true
+      if (error.response.data.error === 'user and email already exist') {
+        username_taken.error = true
+        email_taken.error = true
+      } else if (error.response.data.error === 'username already exist') {
+        username_taken.error = true
+        email_taken.error = false
+      } else if (error.response.data.error === 'email already exist') {
+        username_taken.error = false
+        email_taken.error = true
+      }
+    }
+  } else state.error = true
+}
 </script>
 <template>
   <div class="container">
@@ -75,8 +103,7 @@ const signup = () => {
         <div class="listBox">
           <span>&#x2713;</span>
           <li>
-            Keep track of your favourite movies and TV shows and get
-            recommendations from them
+            Keep track of your favourite movies and TV shows and get recommendations from them
           </li>
         </div>
         <div class="listBox">
@@ -101,8 +128,8 @@ const signup = () => {
       <div>
         <h2>Sign up for an account</h2>
         <p>
-          Signing up for an account is free and easy. Fill out the form below to
-          get started. JavaScript is required to to continue.
+          Signing up for an account is free and easy. Fill out the form below to get started.
+          JavaScript is required to to continue.
         </p>
       </div>
       <div class="errorCard" v-if="state.error">
@@ -111,7 +138,9 @@ const signup = () => {
         </div>
         <div class="errorDetails">
           <ul>
-            <li v-for="error in state.errorList.filter(list => list.error)" :key="error.message">{{ error.message }}</li>
+            <li v-for="error in state.errorList.filter((list) => list.error)" :key="error.message">
+              {{ error.message }}
+            </li>
           </ul>
         </div>
       </div>
@@ -122,11 +151,7 @@ const signup = () => {
         </div>
         <div class="box">
           <label for="">Password (4 characters minimum)</label>
-          <PasswordInput
-            v-model="state.passwordInput"
-            :toggleMask="true"
-            :feedback="false"
-          />
+          <PasswordInput v-model="state.passwordInput" :toggleMask="true" :feedback="false" />
         </div>
         <div class="box">
           <label for="">Email</label>
@@ -134,13 +159,11 @@ const signup = () => {
         </div>
       </form>
       <p>
-        By clicking the "Sign up" button below, I certify that I have read and
-        agree to the TMDB terms of use and privacy policy.
+        By clicking the "Sign up" button below, I certify that I have read and agree to the TMDB
+        terms of use and privacy policy.
       </p>
       <div class="btn">
-        <router-link :to="`${state.error ? '/signup' : '/login'}`" class="sign">
-          <button class="sign" @click="signup">Sign Up</button>
-        </router-link>
+        <button class="sign" @click="signup">Sign Up</button>
         <button @click="$router.push('/')" class="cancel">Cancel</button>
       </div>
     </div>

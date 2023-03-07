@@ -18,8 +18,18 @@ router.post("/signup", async (req, res, next) => {
       username: req.body.usernameInput,
     },
   });
-  if (user) {
-    return res.status(400).json({ error: "username already exist" });
+  const email = await prisma.user.findUnique({
+    where: {
+      email: req.body.emailInput,
+    },
+  });
+  if (user || email) {
+    if (email && user)
+      return res.status(400).json({ error: "user and email already exist" });
+    else if (user)
+      return res.status(400).json({ error: "username already exist" });
+    else if (email)
+      return res.status(400).json({ error: "email already exist" });
   }
   try {
     const hashedPassword = await bcrypt.hash(req.body.passwordInput, 10);
