@@ -2,12 +2,14 @@
 import { reactive } from 'vue'
 import { useSignupStore } from '@/stores/SignupStore'
 import router from '../router/index'
-import { computed } from 'vue'
+import ErrorCard from '../components/ErrorCard.vue';
 
 const signupStore = useSignupStore()
 //data
 const state = reactive({
+
   error: false,
+  errorTitle: "There was an error processing your signup",
   errorList: [
     {
       type: 'username_req',
@@ -46,44 +48,61 @@ const state = reactive({
 })
 
 //methods
+const getErrorList = () => {
+  return {
+    username_req: state.errorList.find((error) => error.type === 'username_req'),
+    password_req: state.errorList.find((error) => error.type === 'password_req'),
+    email_req: state.errorList.find((error) => error.type === 'email_req'),
+    username_taken: state.errorList.find((error) => error.type === 'username_taken'),
+    email_taken: state.errorList.find((error) => error.type === 'email_taken'),
+    password_len: state.errorList.find((error) => error.type === 'password_len')
+  }
+}
+
+const handleErrors = (errorList) => {
+  // input error
+  errorList.username_req.error = state.usernameInput ? false : true
+  errorList.password_req.error = state.passwordInput ? false : true
+  errorList.email_req.error = state.emailInput ? false : true
+
+  // taken error
+  errorList.username_taken.error = !state.usernameInput ? false : errorList.username_taken.error
+  errorList.email_taken.error = !state.emailInput ? false : errorList.email_taken.error
+  errorList.password_len.error = !state.passwordInput || state.passwordInput.length >= 4 ? false : true
+
+  return (errorList.username_req.error || errorList.password_req.error || errorList.email_req.error || errorList.password_len.error)
+}
+
+const handleCatchError = (error, errorList) => {
+  if (error.response.data.message === 'user and email already exist') {
+    errorList.username_taken.error = true
+    errorList.email_taken.error = true
+  }
+  else if (error.response.data.message === 'username already exist') {
+    errorList.username_taken.error = true
+    errorList.email_taken.error = false
+  } else if (error.response.data.message === 'email already exist') {
+    errorList.username_taken.error = false
+    errorList.email_taken.error = true
+  }
+}
 
 const signup = async () => {
-  const username_req = state.errorList.find((error) => error.type === 'username_req')
-  const password_req = state.errorList.find((error) => error.type === 'password_req')
-  const email_req = state.errorList.find((error) => error.type === 'email_req')
-  const username_taken = state.errorList.find((error) => error.type === 'username_taken')
-  const email_taken = state.errorList.find((error) => error.type === 'email_taken')
-  const password_len = state.errorList.find((error) => error.type === 'password_len')
 
-  username_req.error = state.usernameInput ? false : true
-  username_taken.error = !state.usernameInput ? false : username_taken.error
-  password_req.error = state.passwordInput ? false : true
-  email_req.error = state.emailInput ? false : true
-  email_taken.error = !state.emailInput ? false : email_taken.error
-  password_len.error = !state.passwordInput || state.passwordInput.length >= 4 ? false : true
+  const errorList = getErrorList();
+  const error = handleErrors(errorList);
 
-  if (!username_req.error && !password_req.error && !email_req.error && !password_len.error) {
+  if (!error) {
     try {
-      state.error = false
       await signupStore.signup(state)
-      username_taken.error = false
-      email_taken.error = false
       router.push('/login')
     } catch (error) {
       state.error = true
-      if (error.response.data.error === 'user and email already exist') {
-        username_taken.error = true
-        email_taken.error = true
-      } else if (error.response.data.error === 'username already exist') {
-        username_taken.error = true
-        email_taken.error = false
-      } else if (error.response.data.error === 'email already exist') {
-        username_taken.error = false
-        email_taken.error = true
-      }
+      handleCatchError(error, errorList)
     }
   } else state.error = true
 }
+
 </script>
 <template>
   <div class="container">
@@ -132,18 +151,7 @@ const signup = async () => {
           JavaScript is required to to continue.
         </p>
       </div>
-      <div class="errorCard" v-if="state.error">
-        <div class="errorTitle">
-          <p>&#33; There was an error processing your signup</p>
-        </div>
-        <div class="errorDetails">
-          <ul>
-            <li v-for="error in state.errorList.filter((list) => list.error)" :key="error.message">
-              {{ error.message }}
-            </li>
-          </ul>
-        </div>
-      </div>
+      <ErrorCard :errorTitle="state.errorTitle" :errorList="state.errorList" v-if="state.error"/>
       <form>
         <div class="box">
           <label for="">Username</label>
@@ -256,12 +264,14 @@ form .box {
   font-size: 1.6rem;
   color: #444;
 }
+
 ::v-deep(.p-password i) {
   font-size: 2rem;
   top: 1.5rem;
   right: 1.5rem;
   cursor: pointer;
 }
+
 .btn button {
   font-size: 1.5rem;
   font-weight: 600;
@@ -286,27 +296,4 @@ form .box {
   background-color: black;
 }
 
-.errorCard {
-  width: 100%;
-  border-radius: var(--imageBorderRadius);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  overflow: hidden;
-}
-.errorTitle {
-  display: flex;
-  align-items: center;
-  padding-left: 2rem;
-  color: #fff;
-  background-color: rgba(var(--accountRed), 1);
-  height: 5.6rem;
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-.errorDetails {
-  padding: 1.6rem;
-  padding-left: 4rem;
-}
-.errorDetails li:not(:last-child) {
-  margin-bottom: 0.8rem;
-}
 </style>

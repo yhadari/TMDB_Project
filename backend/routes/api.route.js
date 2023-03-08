@@ -25,11 +25,11 @@ router.post("/signup", async (req, res, next) => {
   });
   if (user || email) {
     if (email && user)
-      return res.status(400).json({ error: "user and email already exist" });
+      return res.status(400).json({ message: "user and email already exist" });
     else if (user)
-      return res.status(400).json({ error: "username already exist" });
+      return res.status(400).json({ message: "username already exist" });
     else if (email)
-      return res.status(400).json({ error: "email already exist" });
+      return res.status(400).json({ message: "email already exist" });
   }
   try {
     const hashedPassword = await bcrypt.hash(req.body.passwordInput, 10);
@@ -40,7 +40,7 @@ router.post("/signup", async (req, res, next) => {
         email: req.body.emailInput,
       },
     });
-    res.json({ message: "Signed in successfully 😊 👌" });
+    return res.status(201).json({ message: "Signed in successfully 😊 👌" });
   } catch (error) {
     next(error);
   }
@@ -54,14 +54,14 @@ router.post("/login", async (req, res, next) => {
         username: req.body.username,
       },
     });
-    if (user === null) res.status(400).send("Cannot found user");
+    if (user === null) return res.status(401).json({ message: "Cannot found user" });
     else {
       if (await bcrypt.compare(req.body.password, user.password)) {
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
         res.setHeader("Set-Cookie", `access_token=${accessToken}`);
-        res.send("Your are logged in");
+        return res.status(200).json({ message: "Your are logged in" });
       } else {
-        res.send("Not Allowed");
+        return res.status(401).json({ message: "Not Allowed" });
       }
     }
   } catch (error) {

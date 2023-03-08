@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const useSignupStore = defineStore('signupStore', {
-  state: () => {},
+  state: () => { },
   actions: {
     // POST
     async signup(info) {
