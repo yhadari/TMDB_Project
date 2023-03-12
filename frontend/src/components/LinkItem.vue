@@ -11,11 +11,15 @@ const props = defineProps({
   type: {
     type: String,
     required: true
+  },
+  textColor: {
+    type: String,
+    default: '#fff'
   }
 })
 </script>
 <template>
-  <div class="link">
+  <div class="link" :style="{ color: textColor }">
     <div v-if="props.type === 'left'">
       <div>{{ props.name }}</div>
       <div class="dropdown-content">
@@ -43,8 +47,8 @@ img {
 .link {
   cursor: pointer;
   text-decoration: none;
-  color: #fff;
   padding: 1rem;
+  color: #fff;
 }
 
 .dropdown-content {
