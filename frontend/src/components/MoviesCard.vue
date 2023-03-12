@@ -1,61 +1,64 @@
 <script setup>
-import { useHomePageStore } from "@/stores/HomePageStore";
-import { reactive, computed, ref } from "vue";
-import ToggleBox from "@/components/ToggleBox.vue";
-import ScrolBox from "./ScrolBox.vue";
-import { trendingToggle, popularToggle, topRatedToggle } from "@/toggle/toggle";
-const homePageStore = useHomePageStore();
+import { useHomePageStore } from '@/stores/HomePageStore'
+import { reactive, computed } from 'vue'
+import ToggleBox from '@/components/ToggleBox.vue'
+import ScrolBox from './ScrolBox.vue'
+import { trendingToggle, popularToggle, topRatedToggle } from '@/toggle/toggle'
+const homePageStore = useHomePageStore()
 
 //props
 const props = defineProps({
   type: {
     type: String,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
 // data
 const state = reactive({
   movie_path: import.meta.env.VITE_TMDB_MOVIE_PATH,
-  loading: true,
-});
+  loading: true
+})
 
 //methods
 const loading = (value) => {
-  state.loading = value;
-};
+  state.loading = value
+}
+const moviePage = (movie) => {
+  let title = movie.title || movie.name
+  title = title.replaceAll(' ', '-').replace(':', '').toLowerCase()
+  return `/${movie.media_type}/${movie.id}-${title}`
+}
 
 //computed
 const title = computed(() => {
-  if (props.type === "trending") return "Trending";
-  if (props.type === "popular") return "What's Popular";
-  if (props.type === "top_rated") return "Free To Watch";
-});
+  if (props.type === 'trending') return 'Trending'
+  if (props.type === 'popular') return "What's Popular"
+  if (props.type === 'top_rated') return 'Free To Watch'
+  return props.type
+})
 const toggle = computed(() => {
-  if (props.type === "trending") return trendingToggle;
-  if (props.type === "popular") return popularToggle;
-  if (props.type === "top_rated") return topRatedToggle;
-});
+  if (props.type === 'trending') return trendingToggle
+  if (props.type === 'popular') return popularToggle
+  if (props.type === 'top_rated') return topRatedToggle
+  return trendingToggle
+})
 const movies = computed(() => {
-  if (props.type === "trending") return homePageStore.trending;
-  if (props.type === "popular") return homePageStore.popular;
-  if (props.type === "top_rated") return homePageStore.topRated;
-});
+  if (props.type === 'trending') return homePageStore.trending
+  if (props.type === 'popular') return homePageStore.popular
+  if (props.type === 'top_rated') return homePageStore.topRated
+  return homePageStore.trending
+})
 
 // fetch movies
-if (props.type === "trending") homePageStore.fetchTrending("all", "day");
-else if (props.type === "popular") homePageStore.fetchPopular("movie");
-else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
+if (props.type === 'trending') homePageStore.fetchTrending('all', 'day')
+else if (props.type === 'popular') homePageStore.fetchPopular('movie')
+else if (props.type === 'top_rated') homePageStore.fetchTopRated('movie')
 </script>
 
 <template>
   <div class="container">
-    <ToggleBox
-      :title="title"
-      :type="type"
-      :toggle="toggle.value"
-      @loading="loading"
-    />
+    <ToggleBox :title="title" :type="type" :toggle="toggle.value" @loading="loading" />
     <ScrolBox>
       <div
         :class="`movieCard ${!state.loading && 'hide'}`"
@@ -65,21 +68,25 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
         <div class="loading" v-if="movies.loading">
           <img src="../assets/Rolling.svg" alt="loading" />
         </div>
-        <img
-          class="moviePoster"
-          :src="`${state.movie_path}${movie.poster_path}`"
-          alt="movie poster"
-          v-if="!movies.loading"
-        />
+        <router-link :to="moviePage(movie)">
+          <img
+            class="moviePoster"
+            :src="`${state.movie_path}${movie.poster_path}`"
+            alt="movie poster"
+            v-if="!movies.loading"
+          />
+        </router-link>
         <img
           class="tree_points"
           src="../assets/TreePoints.svg"
           alt="TreePoinst"
           v-if="!movies.loading"
         />
-        <h2 v-if="!movies.loading" class="movieTitle">
-          {{ movie.title || movie.name }}
-        </h2>
+        <router-link class="link" :to="moviePage(movie)">
+          <h2 v-if="!movies.loading" class="movieTitle">
+            {{ movie.title || movie.name }}
+          </h2>
+        </router-link>
         <p v-if="!movies.loading" class="releaseDate">
           {{ movie.release_date || movie.first_air_date }}
         </p>
@@ -93,14 +100,10 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
   position: absolute;
   top: 0;
   right: 0;
-  content: "";
+  content: '';
   width: 6rem;
   height: 100%;
-  background-image: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    #fff 100%
-  );
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
   z-index: 10;
 }
 .movieCard {
@@ -133,6 +136,10 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
 .movieTitle {
   margin-top: 2rem;
   letter-spacing: 0.6px;
+  cursor: pointer;
+}
+.movieTitle:hover {
+  color: rgba(var(--tmdbLightBlue), 1);
 }
 .releaseDate {
   font-size: 1.6rem;
@@ -148,5 +155,9 @@ else if (props.type === "top_rated") homePageStore.fetchTopRated("movie");
 .loading img {
   width: 8rem;
   opacity: 0.5;
+}
+.link {
+  text-decoration: none;
+  color: inherit;
 }
 </style>

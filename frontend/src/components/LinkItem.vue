@@ -2,17 +2,17 @@
 const props = defineProps({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   links: {
     type: Array,
-    required: true,
+    required: true
   },
   type: {
     type: String,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 </script>
 <template>
   <div class="link">
@@ -29,9 +29,7 @@ const props = defineProps({
       </div>
     </div>
     <div v-else>
-      <RouterLink class="link" :to="props.links[0].to">{{
-        props.name
-      }}</RouterLink>
+      <RouterLink class="link" :to="props.links[0].to">{{ props.name }}</RouterLink>
     </div>
   </div>
 </template>
