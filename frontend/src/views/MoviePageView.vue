@@ -13,7 +13,8 @@ const getId = () => {
 }
 
 // Fetch movie details
-moviePageStore.movieDetails(getId())
+moviePageStore.fetchMovieDetails(getId())
+console.log('movie: ', moviePageStore.movieDetails);
 </script>
 <template>
   <div class="container">

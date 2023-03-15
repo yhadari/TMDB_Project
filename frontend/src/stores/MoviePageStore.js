@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-export const useMoviePageStore = defineStore( 'moviePageStore', {
-  state: () =>
-  {
+export const useMoviePageStore = defineStore('moviePageStore', {
+  state: () => {
     return {
       movieDetails: {},
       movieCast: {},
@@ -11,33 +10,27 @@ export const useMoviePageStore = defineStore( 'moviePageStore', {
   },
   actions: {
     // GET
-    async movieCast ()
-    {
-      try
-      {
+    async fetchMovieCast() {
+      try {
         const response = await axios.get(
-          `${ import.meta.env.VITE_TMDB_MOVIE_CAST_PATH }`
+          `${import.meta.env.VITE_TMDB_MOVIE_CAST_PATH}`
         )
-        this.MovieCast = response;
-      } catch ( error )
-      {
-        console.log( 'error: ', error )
+        this.movieCast = response.data.results;
+      } catch (error) {
+        console.log('error: ', error)
         throw error
       }
     },
-    async movieDetails ( movieId )
-    {
-      try
-      {
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${ movieId }?api_key=${ import.meta.env.VITE_TMDB_KEY_VALUE }&language=en-US`
-        )
-        this.MovieDetails = response;
-      } catch ( error )
-      {
-        console.log( 'error: ', error )
-        throw error
-      }
-    }
+    // async fetchMovieDetails(movieId) {
+    //   try {
+    //     const response = await axios.get(
+    //       `https://api.themoviedb.org/3/movie/${movieId}?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE}&language=en-US`
+    //     )
+    //     this.movieDetails = response.data;
+    //   } catch (error) {
+    //     console.log('error: ', error)
+    //     throw error
+    //   }
+    // }
   }
-} )
+})
