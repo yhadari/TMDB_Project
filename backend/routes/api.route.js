@@ -57,7 +57,7 @@ router.post("/login", async (req, res, next) => {
     if (user === null) return res.status(401).json({ message: "Cannot found user" });
     else {
       if (await bcrypt.compare(req.body.password, user.password)) {
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+        const accessToken = jwt.sign(user.username, process.env.ACCESS_TOKEN_SECRET);
         res.setHeader("Set-Cookie", `access_token=${accessToken}`);
         return res.status(200).json({ message: "Your are logged in" });
       } else {
@@ -75,7 +75,7 @@ const authenticateToken = (req, res, next) => {
   if (!token) return res.sendStatus(401);
   try {
     const data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req.user = data;
+    req.username = data;
     next();
   } catch (error) {
     return res.sendStatus(403);
@@ -84,12 +84,12 @@ const authenticateToken = (req, res, next) => {
 
 router.get("/username", authenticateToken, async (req, res, next) => {
   try {
-    const username = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
-        username: req.user.username,
+        username: req.username,
       },
     });
-    res.json({ username });
+    res.json({ username: user.username });
   } catch (error) {
     next(error);
   }

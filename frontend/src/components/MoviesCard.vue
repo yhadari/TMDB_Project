@@ -16,7 +16,8 @@ const props = defineProps({
 
 // data
 const state = reactive({
-  movie_path: import.meta.env.VITE_TMDB_MOVIE_PATH,
+  base_url: import.meta.env.VITE_TMDB_BASE_URL,
+  size: "original",
   loading: true
 })
 
@@ -71,7 +72,7 @@ else if (props.type === 'top_rated') homePageStore.fetchTopRated('movie')
         <router-link :to="moviePage(movie)">
           <img
             class="moviePoster"
-            :src="`${state.movie_path}${movie.poster_path}`"
+            :src="`${state.base_url}${state.size}${movie.poster_path}`"
             alt="movie poster"
             v-if="!movies.loading"
           />

@@ -2,9 +2,20 @@
 import router from '@/router/index'
 import LinkItem from '@/components/LinkItem.vue'
 import { useMoviePageStore } from '@/stores/MoviePageStore'
+import { reactive } from 'vue'
 
 const moviePageStore = useMoviePageStore()
-const backgroundImage = import.meta.env.VITE_TMDB_MOVIE_PATH
+
+// data
+const state = reactive({
+  base_url: import.meta.env.VITE_TMDB_BASE_URL,
+  backdrop_size: "original",
+  poster_size: "original",
+  director: '',
+  character: '',
+  writer: '',
+  runtime: {}
+})
 
 // Methods
 const getId = () => {
@@ -13,9 +24,27 @@ const getId = () => {
   return id
 }
 
+const getCast = (crew) =>{
+  state.director = crew.find((ele)=> ele.job === "Director")?.original_name
+  state.character = crew.find((ele)=> ele.job === "Characters")?.original_name
+  state.writer = crew.find((ele)=> ele.job === "Writer")?.name
+}
+
+const toHoursAndMinutes = (totalMinutes) => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  state.runtime = { hours, minutes };
+}
 // Fetch movie details
 await moviePageStore.fetchMovieDetails(getId())
-console.log(moviePageStore.movieDetails)
+console.log(moviePageStore.movieDetails);
+toHoursAndMinutes(moviePageStore.movieDetails.runtime)
+await moviePageStore.fetchMovieCredits(getId())
+console.log(moviePageStore.movieCredits);
+getCast(moviePageStore.movieCredits.crew);
+await moviePageStore.fetchUsername()
+
 </script>
 <template>
   <div class="container">
@@ -64,19 +93,38 @@ console.log(moviePageStore.movieDetails)
         textColor="#000"
       />
     </div>
-    <div class="movie_info">
+    <div class="movie_box">
       <div class="movie_background">
         <img
-          :src="`${backgroundImage}/${moviePageStore.movieDetails.backdrop_path}`"
-          alt="movie_background"
+        :src="`${state.base_url}${state.backdrop_size}${moviePageStore.movieDetails.backdrop_path}`"
+        alt="movie_background"
         />
         <div class="gradient-overlay"></div>
       </div>
-      <div class="movie_backdrop">
+      <div class="movie_info">
         <img
-          :src="`${backgroundImage}/${moviePageStore.movieDetails.poster_path}`"
+          class="poster_img"
+          :src="`${state.base_url}${state.poster_size}${moviePageStore.         movieDetails.poster_path}`"
           alt="movie_backdrop"
         />
+        <div class="movie_details">
+          <h1 class="m_title">{{ moviePageStore.movieDetails.title}} <span class="m_date">({{ moviePageStore.movieDetails.release_date}})</span></h1>
+          <div class="m_genres">
+            .
+            <div v-for="item in moviePageStore.movieDetails.genres">{{ item.name }},</div>
+            .
+            <p class="m_runtime">{{ state.runtime.hours }}h {{ state.runtime.minutes }}m</p>
+          </div>
+          <p class="m_tagline">{{ moviePageStore.movieDetails.tagline }}</p>
+          <div class="m_overview">
+            <p>Overview</p>
+            {{ moviePageStore.movieDetails.overview }}
+          </div>
+          <p class="m_pc">{{ moviePageStore.movieDetails.production_countries }}</p>
+          <p class="m_character">{{ state.character }}</p>
+          <p class="m_director">{{ state.director }}</p>
+          <p class="m_writer">{{ state.writer }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -98,9 +146,9 @@ console.log(moviePageStore.movieDetails)
   font-weight: 600;
   letter-spacing: 0.6px;
 }
-.movie_info {
+.movie_box {
   width: 100%;
-  height: 58rem;
+  height: 51rem;
   overflow: hidden;
   position: relative;
 }
@@ -108,6 +156,7 @@ console.log(moviePageStore.movieDetails)
   position: absolute;
   width: inherit;
   height: inherit;
+  z-index: -1;
 }
 .movie_background img {
   width: inherit;
@@ -120,30 +169,42 @@ console.log(moviePageStore.movieDetails)
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, hsl(0, 0%, 87%), hsl(0, 0%, 67%, 0.4) 100%);
+  background: linear-gradient(hsla(0, 0%, 20%, 0.7), hsla(0, 0%, 20%, 0.7));
 }
-.movie_backdrop {
-  width: 38rem;
-  margin: 0 auto;
-  margin-top: 2.6rem;
-  position: relative;
-  padding: 0 4rem;
+.movie_info{
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  padding: 2.8rem;
+  gap: 3.6rem;
 }
-.movie_backdrop::after {
-  content: '';
-  height: 6.8rem;
-  width: calc(100% - 8rem);
-  background-color: rgba(var(--tmdbDarkBlue, 1));
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transform: translateY(90%);
-  border-radius: 0 0 1rem 1rem;
+.poster_img{
+  width: 30rem;
+  border-radius: 1rem;
 }
-.movie_backdrop img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 1rem 1rem 0 0;
+.movie_details{
+  width: 100rem;
+  /* background-color: red; */
+  padding: 2rem 0;
+  color: #fff;
+  font-size: 1.6rem;
+}
+.m_title{
+  font-size: 3.6rem;
+}
+.m_date{
+  opacity: 0.8;
+}
+.m_genres{
+  display: flex;
+  gap: 0.6rem;
+}
+.m_tagline{
+  opacity: 0.8;
+}
+.m_overview{
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 </style>

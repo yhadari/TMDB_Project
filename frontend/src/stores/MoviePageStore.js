@@ -1,43 +1,48 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-export const useMoviePageStore = defineStore( 'moviePageStore', {
-  state: () =>
-  {
+export const useMoviePageStore = defineStore('moviePageStore', {
+  state: () => {
     return {
       movieDetails: {},
-      movieCast: {},
+      movieCredits: {},
+      username: ''
     };
   },
   actions: {
     // GET
-    async fetchMovieCast ()
-    {
-      try
-      {
+    async fetchMovieCredits(movieId) {
+      try {
         const response = await axios.get(
-          `${ import.meta.env.VITE_TMDB_MOVIE_CAST_PATH }`
+          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE}&language=en-US`
         )
-        this.movieCast = response.data.results;
-      } catch ( error )
-      {
-        console.log( 'error: ', error )
+        this.movieCredits = response.data;
+      } catch (error) {
+        console.log('error: ', error)
         throw error
       }
     },
-    async fetchMovieDetails ( movieId )
-    {
-      try
-      {
+    async fetchMovieDetails(movieId) {
+      try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${ movieId }?api_key=${ import.meta.env.VITE_TMDB_KEY_VALUE }&language=en-US`
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE}&language=en-US`
         )
         this.movieDetails = response.data;
-      } catch ( error )
-      {
-        console.log( 'error: ', error )
+      } catch (error) {
+        console.log('error: ', error)
+        throw error
+      }
+    },
+    async fetchUsername() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/username`, { withCredentials: true }
+        )
+        this.username = response.data.username;
+      } catch (error) {
+        console.log('error: ', error)
         throw error
       }
     }
   }
-} )
+})
