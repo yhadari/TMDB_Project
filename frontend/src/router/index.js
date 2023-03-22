@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 
-const router = createRouter( {
-  history: createWebHistory( import.meta.env.BASE_URL ),
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
@@ -12,12 +12,12 @@ const router = createRouter( {
     {
       path: "/login",
       name: "login",
-      component: () => import( "@/views/LoginView.vue" ),
+      component: () => import("@/views/LoginView.vue"),
     },
     {
       path: "/signup",
       name: "signup",
-      component: () => import( "@/views/SignupView.vue" ),
+      component: () => import("@/views/SignupView.vue"),
     },
     {
       path: "/movie",
@@ -26,7 +26,7 @@ const router = createRouter( {
     {
       path: "/movie/:param",
       name: "movie-param",
-      component: () => import( "@/views/MoviePageView.vue" ),
+      component: () => import("@/views/MoviePageView.vue"),
     },
     {
       path: "/tv",
@@ -41,16 +41,13 @@ const router = createRouter( {
       name: "plus",
     },
   ],
-  scrollBehavior ( to, from, savedPosition )
-  {
-    if ( savedPosition )
-    {
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
       return savedPosition
-    } else
-    {
+    } else {
       return { top: 0 }
     }
   }
-} );
+});
 
 export default router;

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import router from '@/router/index'
 
 export const useMoviePageStore = defineStore('moviePageStore', {
   state: () => {
@@ -40,7 +41,7 @@ export const useMoviePageStore = defineStore('moviePageStore', {
         )
         this.username = response.data.username;
       } catch (error) {
-        console.log('error: ', error)
+        console.log('error: ', error.response)
         throw error
       }
     }

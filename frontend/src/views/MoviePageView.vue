@@ -43,8 +43,12 @@ toHoursAndMinutes(moviePageStore.movieDetails.runtime)
 await moviePageStore.fetchMovieCredits(getId())
 console.log(moviePageStore.movieCredits);
 getCast(moviePageStore.movieCredits.crew);
-await moviePageStore.fetchUsername()
-
+try{
+  await moviePageStore.fetchUsername()
+}
+catch (error){
+  console.log('error: ', error.response.status)
+}
 </script>
 <template>
   <div class="container">
