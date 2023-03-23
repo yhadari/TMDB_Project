@@ -3,12 +3,14 @@ import router from '@/router/index'
 import LinkItem from '@/components/LinkItem.vue'
 import { useMoviePageStore } from '@/stores/MoviePageStore'
 import { reactive } from 'vue'
+import ScrolBox from '../components/ScrolBox.vue'
 
 const moviePageStore = useMoviePageStore()
 
 // data
 const state = reactive({
   base_url: import.meta.env.VITE_TMDB_BASE_URL,
+  size: "original",
   backdrop_size: "original",
   poster_size: "original",
   director: '',
@@ -41,7 +43,7 @@ await moviePageStore.fetchMovieDetails(getId())
 console.log(moviePageStore.movieDetails);
 toHoursAndMinutes(moviePageStore.movieDetails.runtime)
 await moviePageStore.fetchMovieCredits(getId())
-console.log(moviePageStore.movieCredits);
+console.log('credits: ', moviePageStore.movieCredits.cast);
 getCast(moviePageStore.movieCredits.crew);
 try{
   await moviePageStore.fetchUsername()
@@ -108,28 +110,61 @@ catch (error){
       <div class="movie_info">
         <img
           class="poster_img"
-          :src="`${state.base_url}${state.poster_size}${moviePageStore.         movieDetails.poster_path}`"
+          :src="`${state.base_url}${state.poster_size}${moviePageStore.movieDetails.poster_path}`"
           alt="movie_backdrop"
         />
         <div class="movie_details">
-          <h1 class="m_title">{{ moviePageStore.movieDetails.title}} <span class="m_date">({{ moviePageStore.movieDetails.release_date}})</span></h1>
-          <div class="m_genres">
-            .
-            <div v-for="item in moviePageStore.movieDetails.genres">{{ item.name }},</div>
-            .
-            <p class="m_runtime">{{ state.runtime.hours }}h {{ state.runtime.minutes }}m</p>
+          <div>
+
+            <h1 class="m_title">{{ moviePageStore.movieDetails.title}} <span class="m_date">({{ moviePageStore.movieDetails.release_date}})</span></h1>
+            <div class="m_genres">
+              *
+              <div v-for="item in moviePageStore.movieDetails.genres">{{ item.name }},</div>
+              *
+              <p class="m_runtime">{{ state.runtime.hours }}h {{ state.runtime.minutes }}m</p>
+            </div>
           </div>
-          <p class="m_tagline">{{ moviePageStore.movieDetails.tagline }}</p>
+          <i class="m_tagline">{{ moviePageStore.movieDetails.tagline }}</i>
           <div class="m_overview">
-            <p>Overview</p>
-            {{ moviePageStore.movieDetails.overview }}
+            <h3>Overview</h3>
+            <p>
+              {{ moviePageStore.movieDetails.overview }}
+            </p>
           </div>
-          <p class="m_pc">{{ moviePageStore.movieDetails.production_countries }}</p>
-          <p class="m_character">{{ state.character }}</p>
-          <p class="m_director">{{ state.director }}</p>
-          <p class="m_writer">{{ state.writer }}</p>
+          <div class="m_cast">
+            <div v-if="state.character">
+              <h3 class="m_character">{{ state.character }}</h3>
+              <p>Characters</p>
+            </div>
+            <div v-if="state.director">
+              <h3 class="m_director">{{ state.director }}</h3>
+              <p>Director</p>
+            </div>
+            <div v-if="state.writer">
+              <h3 class="m_writer">{{ state.writer }}</h3>
+              <p>Writer</p>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="movie_cast">
+      <h2>Top Billed Cast</h2>
+      <div class="movie_cast_scroll">
+        <ScrolBox>
+          <div
+          :class="`movieCard`"
+          v-for="cast in moviePageStore.movieCredits.cast"
+          :key="cast.id"
+          >
+          <img
+          class="moviePoster"
+          :src="`${state.base_url}${state.size}${cast.profile_path}`"
+          alt="movie poster"
+          />
+        </div>
+      </ScrolBox>
+    </div>
     </div>
   </div>
 </template>
@@ -166,6 +201,7 @@ catch (error){
   width: inherit;
   height: inherit;
   object-fit: cover;
+  object-position: 80% 20%;
 }
 .gradient-overlay {
   position: absolute;
@@ -173,12 +209,12 @@ catch (error){
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(hsla(0, 0%, 20%, 0.7), hsla(0, 0%, 20%, 0.7));
+  background: linear-gradient(hsla(0, 0%, 10%, 0.8), hsla(0, 0%, 10%, 0.8));
 }
 .movie_info{
-  width: inherit;
+  max-width: 130rem;
   display: flex;
-  justify-content: center;
+  margin: 0 auto;
   padding: 2.8rem;
   gap: 3.6rem;
 }
@@ -187,11 +223,13 @@ catch (error){
   border-radius: 1rem;
 }
 .movie_details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100rem;
-  /* background-color: red; */
-  padding: 2rem 0;
   color: #fff;
   font-size: 1.6rem;
+  gap: 2.2rem;
 }
 .m_title{
   font-size: 3.6rem;
@@ -202,6 +240,7 @@ catch (error){
 .m_genres{
   display: flex;
   gap: 0.6rem;
+  margin-bottom: 4.8rem;
 }
 .m_tagline{
   opacity: 0.8;
@@ -210,5 +249,42 @@ catch (error){
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+}
+.m_overview p{
+  color: #eee;
+}
+.m_cast{
+  display: flex;
+}
+.m_cast div:not(:last-child){
+  margin-right: 18rem;
+}
+.m_cast p{
+  color: #eee;
+  font-size: 1.4rem;
+}
+.movie_cast{
+  position: relative;
+  max-width: 130rem;
+  height: 44.2rem;
+  padding-top: 1.4rem;
+  color: #000;
+  margin: 0 auto;
+}
+.movie_cast_scroll{
+  display: flex;
+}
+.movieCard {
+  position: relative;
+  height: 22.5rem;
+  min-width: 15rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 1rem;
+}
+.moviePoster {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  cursor: pointer;
 }
 </style>
