@@ -50,18 +50,23 @@ console.log('credits: ', moviePageStore.movieCredits.cast)
 
 getCast(moviePageStore.movieCredits.crew)
 
-try {
-  await moviePageStore.fetchUsername()
-} catch (error) {
-  console.log('error: ', error.response.status)
-  if (error.response.status !== 200) {
-    router.push('/login')
-  }
-}
+// try {
+//   await moviePageStore.fetchUsername()
+// } catch (error) {
+//   console.log('error: ', error.response.status)
+//   if (error.response.status !== 200) {
+//     router.push('/login')
+//   }
+// }
+
 </script>
 <template>
   <div class="container">
-    <div class="shortcut_bar">
+    <div class="loading" v-if="moviePageStore.loading === true">
+      <img src="../assets/Rolling.svg" alt="loading" />
+    </div>
+    <div v-else>
+      <div class="shortcut_bar">
       <LinkItem
         name="Overview &darr;"
         :links="[
@@ -105,8 +110,8 @@ try {
         type="left"
         textColor="#000"
       />
-    </div>
-    <div class="movie_box">
+      </div>
+      <div class="movie_box">
       <div class="movie_background">
         <img
           :src="`${state.base_url}${state.backdrop_size}${moviePageStore.movieDetails.backdrop_path}`"
@@ -158,8 +163,8 @@ try {
           </div>
         </div>
       </div>
-    </div>
-    <div class="movie_cast">
+      </div>
+      <div class="movie_cast">
       <h2>Top Billed Cast</h2>
       <div class="movie_cast_scroll">
         <ScrolBox>
@@ -172,12 +177,24 @@ try {
           </div>
         </ScrolBox>
       </div>
+      </div>
     </div>
   </div>
 </template>
 <style scoped>
+.loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--footerHeight) - var(--navHeight));
+}
+.loading img {
+  width: 6rem;
+  opacity: 0.5;
+}
 .container {
   width: 100%;
+  min-height: calc(100vh - var(--footerHeight) - var(--navHeight));
   letter-spacing: 0.6px;
   font-size: 1.5rem;
   font-weight: 500;

@@ -12,9 +12,10 @@ import Footer from './components/Footer.vue'
     </template>
 
     <!-- loading state via #fallback slot -->
-    <template #fallback> Loading... </template>
+    <template #fallback>Loading ...</template>
   </Suspense>
   <Footer />
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

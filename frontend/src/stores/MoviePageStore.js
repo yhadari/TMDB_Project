@@ -1,58 +1,54 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-export const useMoviePageStore = defineStore( 'moviePageStore', {
-  state: () =>
-  {
+export const useMoviePageStore = defineStore('moviePageStore', {
+  state: () => {
     return {
       movieDetails: {},
       movieCredits: {},
-      username: ''
+      username: '',
+      loading: true
     };
   },
   actions: {
     // GET
-    async fetchMovieCredits ( movieId )
-    {
-      try
-      {
+    async fetchMovieCredits(movieId) {
+      try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${ movieId }/credits?api_key=${ import.meta.env.VITE_TMDB_KEY_VALUE }&language=en-US`
+          `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE}&language=en-US`
         )
         this.movieCredits = response.data;
-      } catch ( error )
-      {
-        console.log( 'error: ', error )
+      } catch (error) {
+        console.log('error: ', error)
         throw error
       }
     },
-    async fetchMovieDetails ( movieId )
-    {
-      try
-      {
+    async fetchMovieDetails(movieId) {
+      this.loading = true
+      try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${ movieId }?api_key=${ import.meta.env.VITE_TMDB_KEY_VALUE }&language=en-US`
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${import.meta.env.VITE_TMDB_KEY_VALUE}&language=en-US`
         )
         this.movieDetails = response.data;
-      } catch ( error )
-      {
-        console.log( 'error: ', error )
+        this.loading = false
+      } catch (error) {
+        console.log('error: ', error)
         throw error
       }
     },
-    async fetchUsername ()
-    {
-      try
-      {
-        const response = await axios.get(
-          `http://localhost:3000/api/username`, { withCredentials: true }
-        )
-        this.username = response.data.username;
-      } catch ( error )
-      {
-        console.log( 'error: ', error.response )
-        throw error
-      }
-    }
+    // async fetchUsername ()
+    // {
+    //   try
+    //   {
+    //     const response = await axios.get(
+    //       `http://localhost:3000/api/username`, { withCredentials: true }
+    //     )
+    //     this.username = response.data.username;
+    //   } catch ( error )
+    //   {
+    //     console.log( 'error: ', error.response )
+    //     throw error
+    //   }
+    // }
   }
-} )
+})
