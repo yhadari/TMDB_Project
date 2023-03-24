@@ -1,8 +1,8 @@
 <script setup>
 import { reactive } from "vue";
 import { useLoginStore } from "@/stores/LoginStore";
-import ErrorCard from '../components/ErrorCard.vue';
-import router from '../router/index'
+import ErrorCard from "../components/ErrorCard.vue";
+import router from "../router/index";
 
 const loginStore = useLoginStore();
 
@@ -12,14 +12,14 @@ const state = reactive({
   errorTitle: "There was a problem",
   errorList: [
     {
-      type: 'username_incorrect',
+      type: "username_incorrect",
       message: "We couldn't find your username",
-      error: true
+      error: true,
     },
     {
       type: "password_incorect",
       message: "We couldn't validate your information. Want to try again?",
-      error: false
+      error: false,
     },
   ],
   username: "",
@@ -30,47 +30,46 @@ const state = reactive({
 
 const getErrorList = () => {
   return {
-    username_incorrect: state.errorList.find((error) => error.type === 'username_incorrect'),
-    password_incorect: state.errorList.find((error) => error.type === 'password_incorect'),
-  }
-}
+    username_incorrect: state.errorList.find(
+      (error) => error.type === "username_incorrect"
+    ),
+    password_incorect: state.errorList.find(
+      (error) => error.type === "password_incorect"
+    ),
+  };
+};
 
 const handleCatchError = (error, errorList) => {
-  console.log('error', error.response);
-  if (error.response.data.message === 'Cannot found user') {
-    errorList.username_incorrect.error = true
-    errorList.password_incorect.error = false
+  console.log("error", error.response);
+  if (error.response.data.message === "Cannot found user") {
+    errorList.username_incorrect.error = true;
+    errorList.password_incorect.error = false;
+  } else if (error.response.data.message === "Not Allowed") {
+    errorList.username_incorrect.error = false;
+    errorList.password_incorect.error = true;
   }
-  else if (error.response.data.message === 'Not Allowed') {
-    errorList.username_incorrect.error = false
-    errorList.password_incorect.error = true
-  }
-}
+};
 
 const login = () => {
-
   state.error = false;
   const errorList = getErrorList();
 
   setTimeout(async () => {
-    if (!state.username)
-    {
-      errorList.username_incorrect.error = true
-      errorList.password_incorect.error = false
+    if (!state.username) {
+      errorList.username_incorrect.error = true;
+      errorList.password_incorect.error = false;
       state.error = true;
-    }
-    else {
+    } else {
       try {
-        await loginStore.login(state)
-        router.push('/')
-      }
-      catch (error) {
-        state.error = true
-        handleCatchError(error, errorList)
+        await loginStore.login(state);
+        router.push("/");
+      } catch (error) {
+        state.error = true;
+        handleCatchError(error, errorList);
       }
     }
-  }, 0)
-}
+  }, 0);
+};
 </script>
 
 <template>
@@ -91,7 +90,11 @@ const login = () => {
       <router-link class="link" to="/">click here</router-link> to have it
       resent.
     </p>
-    <ErrorCard :errorTitle="state.errorTitle" :errorList="state.errorList" v-if="state.error" />
+    <ErrorCard
+      :errorTitle="state.errorTitle"
+      :errorList="state.errorList"
+      v-if="state.error"
+    />
     <form action="">
       <div class="box">
         <label for="">Username</label>
@@ -174,4 +177,5 @@ form .box {
 .link {
   text-decoration: none;
   color: rgba(var(--tmdbLightBlue));
-}</style>
+}
+</style>

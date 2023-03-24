@@ -17,6 +17,9 @@ nav {
   display: flex;
   justify-content: center;
   background-color: rgba(var(--tmdbDarkBlue), 1);
+  width: 100%;
+  /* position: fixed;
+  z-index: 100; */
 }
 .content {
   width: 100%;
