@@ -6,8 +6,10 @@ import NavItemRight from "./NavItemRight.vue";
 <template>
   <nav>
     <div class="content">
-      <NavItemLeft />
-      <NavItemRight />
+      <div class="box">
+        <NavItemLeft />
+        <NavItemRight />
+      </div>
     </div>
   </nav>
 </template>
@@ -16,18 +18,21 @@ import NavItemRight from "./NavItemRight.vue";
 nav {
   display: flex;
   justify-content: center;
-  background-color: rgba(var(--tmdbDarkBlue), 1);
-  width: 100%;
-  /* position: fixed;
-  z-index: 100; */
+  margin-bottom: var(--navHeight);
 }
 .content {
   width: 100%;
+  position: fixed;
+  z-index: 1000;
+  background-color: rgba(var(--tmdbDarkBlue), 1);
+  display: flex;
+  justify-content: center;
+}
+.box {
+  width: 100%;
   max-width: 130rem;
-  height: var(--navHeight);
   display: flex;
   justify-content: space-between;
-  align-items: center;
   padding: 0 4rem;
   font-size: 1.5rem;
   font-weight: 600;
