@@ -4,10 +4,6 @@ import App from "./App.vue";
 import router from "./router";
 import "./assets/main.css";
 
-// plyr
-import VuePlyr from "vue-plyr";
-import "vue-plyr/dist/vue-plyr.css";
-
 // PrimeVue
 import PrimeVue from "primevue/config";
 import "primeicons/primeicons.css ";
