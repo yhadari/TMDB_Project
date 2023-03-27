@@ -4,7 +4,6 @@ import ScrolBox from "./ScrolBox.vue";
 import { useHomePageStore } from "@/stores/HomePageStore";
 import { reactive, computed } from "vue";
 import { vedioToggle } from "@/toggle/toggle";
-import { LatestTrailers } from "@/api/vedioApi";
 
 const homePageStore = useHomePageStore();
 
@@ -12,26 +11,29 @@ const homePageStore = useHomePageStore();
 const loading = (value) => {
   state.loading = value;
 };
-const changeUrl = (url) => {
-  console.log(url);
-  const newUrl = url.replace("710", "1920").replace("400", "427");
-  return newUrl;
-};
-const vedioPosterHover = (event) => {
-  state.url = changeUrl(event.target.src);
-};
 
 // data
 const state = reactive({
-  vedio_path: import.meta.env.VITE_TMDB_VEDIO_PATH,
+  base_url: import.meta.env.VITE_TMDB_BASE_URL,
+  size: "original",
   loading: true,
-  url: changeUrl(
-    `${import.meta.env.VITE_TMDB_VEDIO_PATH}${LatestTrailers[0].path}`
-  ),
+  index: 0,
+  vedioPlay: false,
+  vedioIndex: 0,
 });
 
+const vedioPosterHover = (index) => {
+  state.index = index;
+  console.log(homePageStore.vedio.data[index]);
+};
+
+const vedioPosterClick = (index) => {
+  state.vedioIndex = index;
+  state.vedioPlay = true;
+};
+
 // fetch movies
-homePageStore.fetchTrending("all", "day");
+homePageStore.fetchPopular("tv");
 </script>
 
 <template>
@@ -45,15 +47,15 @@ homePageStore.fetchTrending("all", "day");
     <ScrolBox>
       <div
         :class="`vedioCard ${!state.loading && 'hide'}`"
-        v-for="vedio in LatestTrailers"
-        :key="vedio.title"
+        v-for="(vedio, index) in homePageStore.vedio.data"
+        :key="vedio.name"
       >
-        <div class="imageCard">
+        <div class="imageCard" @click="vedioPosterClick(index)">
           <img
             class="vedioPoster"
-            :src="`${state.vedio_path}${vedio.path}`"
+            :src="`${state.base_url}${state.size}${vedio.backdrop_path}`"
             alt="movie poster"
-            @mouseover="vedioPosterHover"
+            @mouseover="vedioPosterHover(index)"
           />
           <img
             class="tree_points"
@@ -62,18 +64,70 @@ homePageStore.fetchTrending("all", "day");
           />
           <ion-icon name="play" class="play_btn"></ion-icon>
         </div>
-        <h2 class="movieTitle">{{ vedio.title }}</h2>
-        <p>{{ vedio.text }}</p>
+        <h2 class="movieTitle">{{ vedio.name }}</h2>
+        <p>{{ vedio.first_air_date }}</p>
       </div>
     </ScrolBox>
     <div
       class="backGround"
-      :style="`background-image: linear-gradient(to right, rgba(var(--tmdbDarkBlue), 0.75) 0%, rgba(var(--tmdbDarkBlue), 0.75) 100%), url(${state.url})`"
+      :style="`background-image: linear-gradient(to right, rgba(var(--tmdbDarkBlue), 0.75) 0%, rgba(var(--tmdbDarkBlue), 0.75) 100%), url(${
+        state.base_url
+      }${state.size}${homePageStore.vedio.data[state.index]?.backdrop_path})`"
     ></div>
+    <Teleport to="body">
+      <div class="vedio_wrap" v-if="state.vedioPlay">
+        <div class="vedio_close" @click="state.vedioPlay = false">
+          <iframe
+            width="1280"
+            height="720"
+            :src="`https://www.youtube.com/embed/${
+              homePageStore.vedio.urls[state.vedioIndex]
+            }?autoplay=1`"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <style scoped>
+.vedio_wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+}
+.vedio_close {
+  width: 128rem;
+  position: relative;
+  cursor: pointer;
+}
+.vedio_close::after {
+  content: "x";
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background-color: hsla(0, 0%, 100%, 0.3);
+  color: #fff;
+  border-radius: 50%;
+  height: 3.8rem;
+  width: 3.8rem;
+  font-size: 2.4rem;
+  text-align: center;
+}
 .container {
   position: relative;
 }
