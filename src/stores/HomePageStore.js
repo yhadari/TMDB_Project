@@ -8,25 +8,48 @@ export const useHomePageStore = defineStore("homePageStore", {
       trending: { data: [], loading: true },
       popular: { data: [], loading: true },
       topRated: { data: [], loading: true },
-      vedio: { data: [], urls: [], loading: true },
+      vedio: { data: [], urls: [], names: [], loading: true },
     };
   },
   actions: {
     //GET
-    fetchVedio(id) {
+    fetchTrailers(type) {
+      this.vedio.loading = true;
       axios
         .get(
-          `https://api.themoviedb.org/3/tv/${id}/videos?api_key=${
+          `https://api.themoviedb.org/3/${type}/popular?api_key=${
             import.meta.env.VITE_TMDB_KEY_VALUE
-          }&language=en-US`
+          }&language=en-US&page=1`
         )
         .then((res) => {
-          if (res.data.results.length) {
-            // this.vedio.urls.push(`${import.meta.env.VITE_TMDB_YOUTUBE_PATH}${res.data.results[0]?.key}`)
-            this.vedio.urls.push(`${res.data.results[0]?.key}`);
-            // console.log('urls: ', this.vedio.urls);
-          } else
-            this.vedio.data = this.vedio.data.filter((ele) => ele.id !== id);
+          this.vedio.data = res.data.results.filter((ele) => ele.backdrop_path);
+          this.vedio.urls = [];
+          this.vedio.names = [];
+          for (const key in this.vedio.data) {
+            axios
+              .get(
+                `https://api.themoviedb.org/3/${type}/${
+                  this.vedio.data[key].id
+                }/videos?api_key=${
+                  import.meta.env.VITE_TMDB_KEY_VALUE
+                }&language=en-US`
+              )
+              .then((res) => {
+                if (res.data.results.length) {
+                  this.vedio.urls.push(res.data.results[0]?.key);
+                  this.vedio.names.push(res.data.results[0]?.name);
+                } else
+                  this.vedio.data = this.vedio.data.filter(
+                    (ele) => ele.id !== id
+                  );
+              });
+          }
+        })
+        .catch((err) => {
+          console.log("error: ", err);
+        })
+        .finally(() => {
+          this.vedio.loading = false;
         });
     },
     fetchTrending(media_type, time_window) {
@@ -47,7 +70,7 @@ export const useHomePageStore = defineStore("homePageStore", {
           this.trending.loading = false;
         });
     },
-    fetchPopular(type) {
+    fetchPopular(type, trailers = "") {
       this.popular.loading = true;
       axios
         .get(
@@ -57,15 +80,6 @@ export const useHomePageStore = defineStore("homePageStore", {
         )
         .then((res) => {
           this.popular.data = res.data.results;
-          if (type === "tv") {
-            this.vedio.data = res.data.results.filter(
-              (ele) => ele.backdrop_path
-            );
-            for (const key in this.vedio.data) {
-              this.fetchVedio(this.vedio.data[key].id);
-            }
-            // console.log('data: ', this.vedio.data);
-          }
         })
         .catch((err) => {
           console.log("error: ", err);

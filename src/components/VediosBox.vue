@@ -32,8 +32,7 @@ const vedioPosterClick = (index) => {
   state.vedioPlay = true;
 };
 
-// fetch movies
-homePageStore.fetchPopular("tv");
+homePageStore.fetchTrailers("movie");
 </script>
 
 <template>
@@ -50,7 +49,14 @@ homePageStore.fetchPopular("tv");
         v-for="(vedio, index) in homePageStore.vedio.data"
         :key="vedio.name"
       >
-        <div class="imageCard" @click="vedioPosterClick(index)">
+        <div class="loading" v-if="homePageStore.vedio.loading">
+          <img src="../assets/Rolling.svg" alt="loading" />
+        </div>
+        <div
+          class="imageCard"
+          @click="vedioPosterClick(index)"
+          v-if="!homePageStore.vedio.loading"
+        >
           <img
             class="vedioPoster"
             :src="`${state.base_url}${state.size}${vedio.backdrop_path}`"
@@ -64,8 +70,10 @@ homePageStore.fetchPopular("tv");
           />
           <ion-icon name="play" class="play_btn"></ion-icon>
         </div>
-        <h2 class="movieTitle">{{ vedio.name }}</h2>
-        <p>{{ vedio.first_air_date }}</p>
+        <div v-if="!homePageStore.vedio.loading">
+          <h2 class="movieTitle">{{ vedio.name || vedio.title }}</h2>
+          <h3>{{ homePageStore.vedio.names[index] }}</h3>
+        </div>
       </div>
     </ScrolBox>
     <div
@@ -95,20 +103,6 @@ homePageStore.fetchPopular("tv");
 </template>
 
 <style scoped>
-.vedio_wrap {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(5px);
-}
 .vedio_close {
   width: 128rem;
   position: relative;
@@ -127,6 +121,20 @@ homePageStore.fetchPopular("tv");
   width: 3.8rem;
   font-size: 2.4rem;
   text-align: center;
+}
+.vedio_wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: grayscale(0.4) blur(0.8rem);
 }
 .container {
   position: relative;
@@ -208,5 +216,15 @@ homePageStore.fetchPopular("tv");
   left: 0;
   width: 100%;
   height: 100%;
+}
+.loading {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading img {
+  width: 8rem;
+  opacity: 0.5;
 }
 </style>
