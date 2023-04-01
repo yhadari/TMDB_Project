@@ -12,11 +12,16 @@ const loading = (value) => {
   state.loading = value;
 };
 
+const scroll = (value) => {
+  state.scroll = value;
+};
+
 // data
 const state = reactive({
   base_url: import.meta.env.VITE_TMDB_BASE_URL,
   size: "original",
   loading: true,
+  scroll: true,
   index: 0,
   vedioPlay: false,
   vedioIndex: 0,
@@ -35,16 +40,18 @@ homePageStore.fetchTrailers("movie");
 </script>
 
 <template>
-  <div class="container">
+  <div :class="`${state.scroll && 'container'}`">
     <ToggleBox
       title="Latest Trailers"
       type="vedio"
       :toggle="vedioToggle"
       @loading="loading"
     />
-    <ScrolBox type="vedio">
+    <ScrolBox type="vedio" @scroll="scroll">
       <div
-        :class="`vedioCard ${!state.loading && 'hide'}`"
+        :class="`vedioCard ${!state.loading && 'hide'} ${
+          homePageStore.vedio.loading && 'ld'
+        }`"
         v-for="(vedio, index) in homePageStore.vedio.arr"
         :key="vedio.name"
       >
@@ -137,8 +144,9 @@ homePageStore.fetchTrailers("movie");
 }
 .container {
   position: relative;
+  transition: all 0.6s;
 }
-.container:after {
+.container::after {
   position: absolute;
   top: 0;
   right: 0;
@@ -156,11 +164,12 @@ homePageStore.fetchTrailers("movie");
   height: 17.8rem;
   min-width: 31.8rem;
   border-radius: 1rem;
-  padding: 0.4rem;
   text-align: center;
   color: #fff;
   font-size: 1.25rem;
   letter-spacing: 0.8px;
+  background-color: hsla(0, 0%, 100%, 0.4);
+  margin-top: 0.6rem;
 }
 .hide {
   visibility: hidden;
@@ -224,18 +233,21 @@ homePageStore.fetchTrailers("movie");
 }
 .loading img {
   width: 6.4rem;
-  opacity: 0.6;
+  opacity: 0.4;
+  animation: fade 2s infinite;
+}
+.ld {
   animation: fade 2s infinite;
 }
 @keyframes fade {
   0% {
-    opacity: 0.6;
+    opacity: 0.4;
   }
   50% {
     opacity: 0;
   }
   100% {
-    opacity: 0.6;
+    opacity: 0.4;
   }
 }
 </style>
