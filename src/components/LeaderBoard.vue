@@ -1,6 +1,10 @@
 <script setup>
-import { LeaderBoard } from "../api/leaderBoard";
 import LeaderBoaordItem from "../components/LeaderBoardItem.vue";
+import { useLeaderBoardStore } from "../stores/LeaderBoardStore";
+
+const LeaderBoardStore = useLeaderBoardStore();
+
+await LeaderBoardStore.users();
 </script>
 
 <template>
@@ -19,7 +23,10 @@ import LeaderBoaordItem from "../components/LeaderBoardItem.vue";
       </div>
     </header>
     <main>
-      <LeaderBoaordItem v-for="item in LeaderBoard" :leaderBoard="item" />
+      <LeaderBoaordItem
+        v-for="item in LeaderBoardStore.leaderBoard"
+        :leaderBoard="item"
+      />
     </main>
   </section>
 </template>

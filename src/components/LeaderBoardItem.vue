@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, computed } from "vue";
+
 const props = defineProps({
   leaderBoard: {
     type: Object,
@@ -28,9 +29,9 @@ const state = reactive({
 
 <template>
   <div class="box">
-    <img :src="props.leaderBoard.avatar" alt="userAvatar" />
+    <img :src="props.leaderBoard.picture.medium" alt="userAvatar" />
     <div class="gauge_box">
-      <h2>{{ props.leaderBoard.name }}</h2>
+      <h2>{{ props.leaderBoard.name.first }}</h2>
       <div class="gauge">
         <span
           class="all_gauge"
