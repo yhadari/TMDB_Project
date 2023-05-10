@@ -177,11 +177,11 @@ getCast(moviePageStore.movieCredits.crew);
         </div>
       </div>
       <div class="movie_cast">
-        <h2>Top Billed Cast</h2>
+        <h2 class="title">Top Billed Cast</h2>
         <div class="movie_cast_scroll">
           <ScrolBox>
             <div
-              :class="`movieCard`"
+              class="movieCard"
               v-for="cast in moviePageStore.movieCredits.cast"
               :key="cast.id"
             >
@@ -197,7 +197,10 @@ getCast(moviePageStore.movieCredits.crew);
                 src="../assets/profile.jpg"
                 alt="movie poster"
               />
-              <div class="cast_det"></div>
+              <div class="cast_det">
+                <p class="name">{{ cast.name }}</p>
+                <p class="character">{{ cast.character }}</p>
+              </div>
             </div>
           </ScrolBox>
         </div>
@@ -315,33 +318,42 @@ getCast(moviePageStore.movieCredits.crew);
   position: relative;
   max-width: 130rem;
   height: 44.2rem;
-  padding-top: 1.4rem;
+  padding: 2rem 0;
   color: #000;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.6rem;
+}
+
+.movie_cast .title {
+  padding: 0 4rem;
 }
 .movie_cast_scroll {
   display: flex;
-  height: 30rem;
+  height: 100%;
 }
 .movieCard {
   position: relative;
-  height: 100%;
+  width: 13.8rem;
   min-width: 13.8rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 1rem;
+  height: 90%;
 }
 .moviePoster {
   width: 100%;
   height: 17.5rem;
-  border-radius: 1rem;
+  border-radius: 1rem 1rem 0 0;
   cursor: pointer;
   object-fit: cover;
   object-position: 0 0;
 }
 
 .cast_det {
-  width: 100%;
-  /* height: 12.5rem;ˇˇ */
-  background-color: black;
+  padding: 1rem;
+}
+.cast_det .name {
+  font-weight: bold;
 }
 </style>

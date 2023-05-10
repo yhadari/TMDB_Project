@@ -12,20 +12,20 @@ const loading = (value) => {
   state.loading = value;
 };
 
-const scroll = (value) => {
-  state.scroll = value;
-};
-
 // data
 const state = reactive({
   base_url: import.meta.env.VITE_TMDB_BASE_URL,
   size: "original",
   loading: true,
-  scroll: true,
   index: 0,
   vedioPlay: false,
   vedioIndex: 0,
+  scroll: 0,
 });
+
+const scroll = (value) => {
+  state.scroll = value;
+};
 
 const vedioPosterHover = (index) => {
   state.index = index;
@@ -40,7 +40,7 @@ homePageStore.fetchTrailers("movie");
 </script>
 
 <template>
-  <div :class="`${state.scroll && 'container'}`">
+  <section :class="`${state.scroll <= 100 && 'contianer'}`">
     <ToggleBox
       title="Latest Trailers"
       type="vedio"
@@ -104,10 +104,24 @@ homePageStore.fetchTrailers("movie");
         </div>
       </div>
     </Teleport>
-  </div>
+  </section>
 </template>
 
 <style scoped>
+.contianer::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: "";
+  width: 6rem;
+  height: 100%;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    #fff 100%
+  );
+  z-index: 10;
+}
 .vedio_close {
   width: 100%;
   position: relative;
@@ -152,24 +166,6 @@ homePageStore.fetchTrailers("movie");
   backdrop-filter: grayscale(0.4) blur(0.8rem);
   padding: 12%;
 }
-.container {
-  position: relative;
-  transition: all 0.6s;
-}
-.container::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  content: "";
-  width: 6rem;
-  height: 100%;
-  background-image: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    #fff 100%
-  );
-  z-index: 10;
-}
 .vedioCard {
   height: 17.8rem;
   min-width: 31.8rem;
@@ -180,6 +176,7 @@ homePageStore.fetchTrailers("movie");
   letter-spacing: 0.8px;
   background-color: hsla(0, 0%, 100%, 0.4);
   margin-top: 0.6rem;
+  z-index: 10;
 }
 .hide {
   visibility: hidden;

@@ -1,4 +1,7 @@
 <script setup>
+import { ref, defineProps } from "vue";
+const scroll = ref(0);
+
 //props
 const props = defineProps({
   type: {
@@ -8,18 +11,23 @@ const props = defineProps({
 });
 
 //emits
-const emits = defineEmits(["scroll"]);
+const emit = defineEmits(["scroll"]);
 
 //methods
 const handleScroll = (event) => {
-  if (event.target.scrollLeft <= 100) emits("scroll", true);
-  else emits("scroll", false);
+  scroll.value = event.target.scrollLeft;
+  emit("scroll", scroll.value);
 };
 </script>
 
 <template>
   <div class="Cards">
-    <div :class="`scrollBox ${props.type}`" @scroll="handleScroll">
+    <div
+      @scroll="handleScroll"
+      :class="`scrollBox ${props.type} ${
+        scroll <= 100 && props.type != 'vedio' && 'container'
+      }`"
+    >
       <slot />
     </div>
   </div>
@@ -30,6 +38,20 @@ const handleScroll = (event) => {
   width: 100%;
   display: flex;
   position: relative;
+  z-index: 10;
+}
+.container::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: "";
+  width: 6rem;
+  height: 100%;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    #fff 100%
+  );
   z-index: 10;
 }
 .scrollBox {
