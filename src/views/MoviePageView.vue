@@ -316,13 +316,14 @@ getCast(moviePageStore.movieCredits.crew);
 }
 .movie_cast {
   position: relative;
-  max-width: 130rem;
+  max-width: 100rem;
   height: 44.2rem;
   padding: 2rem 0;
   color: #000;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  align-content: start;
   gap: 2.6rem;
 }
 
