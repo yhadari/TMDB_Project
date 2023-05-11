@@ -60,7 +60,7 @@ const handleScroll = (event) => {
   overflow-x: scroll;
   overflow-y: hidden;
   color: #000;
-  padding: 0 4rem;
+  padding: 0 2rem;
 }
 .scrollBox::-webkit-scrollbar {
   height: 0.8rem;

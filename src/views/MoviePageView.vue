@@ -176,33 +176,50 @@ getCast(moviePageStore.movieCredits.crew);
           </div>
         </div>
       </div>
-      <div class="movie_cast">
-        <h2 class="title">Top Billed Cast</h2>
-        <div class="movie_cast_scroll">
-          <ScrolBox>
-            <div
-              class="movieCard"
-              v-for="cast in moviePageStore.movieCredits.cast"
-              :key="cast.id"
-            >
-              <img
-                v-if="cast.profile_path"
-                class="moviePoster"
-                :src="`${state.base_url}${state.size}${cast.profile_path}`"
-                alt="movie poster"
-              />
-              <img
-                v-else
-                class="moviePoster"
-                src="../assets/profile.jpg"
-                alt="movie poster"
-              />
-              <div class="cast_det">
-                <p class="name">{{ cast.name }}</p>
-                <p class="character">{{ cast.character }}</p>
+      <div class="content_wrapper">
+        <div class="movie_cast">
+          <h2 class="title">Top Billed Cast</h2>
+          <div class="movie_cast_scroll">
+            <ScrolBox>
+              <div
+                class="movieCard"
+                v-for="cast in moviePageStore.movieCredits.cast.slice(0, 10)"
+                :key="cast.id"
+              >
+                <img
+                  v-if="cast.profile_path"
+                  class="moviePoster real"
+                  :src="`${state.base_url}${state.size}${cast.profile_path}`"
+                  alt="movie poster"
+                />
+                <img
+                  v-else
+                  class="moviePoster"
+                  src="../assets/profile.jpg"
+                  alt="movie poster"
+                />
+                <div class="cast_det">
+                  <p class="name">{{ cast.name }}</p>
+                  <p class="character">{{ cast.character }}</p>
+                </div>
               </div>
-            </div>
-          </ScrolBox>
+            </ScrolBox>
+          </div>
+        </div>
+        <div class="content_right">
+          <div class="icons">
+            <img src="" alt="" />
+          </div>
+          <div>
+            <p>{{ moviePageStore.movieDetails.homepage }}</p>
+            <p>{{ moviePageStore.movieDetails.status }}</p>
+            <p>
+              {{ moviePageStore.movieDetails.original_language }}
+            </p>
+            <p>{{ moviePageStore.movieDetails.budget }}</p>
+            <p>{{ moviePageStore.movieDetails.revenue }}</p>
+            <p>{{ moviePageStore.movieDetails.title }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -264,7 +281,7 @@ getCast(moviePageStore.movieCredits.crew);
   opacity: 0.8;
 }
 .movie_info {
-  max-width: 130rem;
+  max-width: 136rem;
   display: flex;
   margin: 0 auto;
   padding: 2.8rem;
@@ -314,21 +331,28 @@ getCast(moviePageStore.movieCredits.crew);
   color: #eee;
   font-size: 1.4rem;
 }
+.content_wrapper {
+  display: flex;
+  padding: 2rem 0;
+  max-width: 136rem;
+  margin: 0 auto;
+  gap: 3rem;
+}
 .movie_cast {
   position: relative;
-  max-width: 100rem;
-  height: 44.2rem;
-  padding: 2rem 0;
+  height: 42.2rem;
   color: #000;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-content: start;
   gap: 2.6rem;
+  width: 75%;
 }
 
+.content_right {
+  width: 25%;
+}
 .movie_cast .title {
-  padding: 0 4rem;
+  padding: 0 2rem;
 }
 .movie_cast_scroll {
   display: flex;
@@ -340,7 +364,7 @@ getCast(moviePageStore.movieCredits.crew);
   min-width: 13.8rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 1rem;
-  height: 90%;
+  height: 92%;
 }
 .moviePoster {
   width: 100%;
@@ -348,9 +372,11 @@ getCast(moviePageStore.movieCredits.crew);
   border-radius: 1rem 1rem 0 0;
   cursor: pointer;
   object-fit: cover;
-  object-position: 0 0;
 }
 
+.moviePoster.real {
+  object-position: 0 0;
+}
 .cast_det {
   padding: 1rem;
 }
