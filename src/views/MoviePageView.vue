@@ -208,15 +208,23 @@ getCast(moviePageStore.movieCredits.crew);
         </div>
         <div class="content_right">
           <div class="icons">
-            <img src="" alt="" />
+            <img src="../assets/facebook-logo.png" alt="facebook-logo" />
+            <img src="../assets/instagram-logo.png" alt="instagram-logo" />
+            <img src="../assets/justWatch-logo.png" alt="justwatch-logo" />
+            <img src="../assets/twitter-logo.png" alt="tweeter-logo" />
+            <span></span>
+            <a :href="moviePageStore.movieDetails.homepage" target="_blank">
+              <img src="../assets/homePage.svg" alt="homepage-logo" />
+            </a>
           </div>
           <div>
-            <p>{{ moviePageStore.movieDetails.homepage }}</p>
+            <p>Status</p>
             <p>{{ moviePageStore.movieDetails.status }}</p>
-            <p>
-              {{ moviePageStore.movieDetails.original_language }}
-            </p>
+            <p>Original Language</p>
+            {{ moviePageStore.movieDetails.original_language }}
+            <p>Budget</p>
             <p>{{ moviePageStore.movieDetails.budget }}</p>
+            <p>Revenue</p>
             <p>{{ moviePageStore.movieDetails.revenue }}</p>
             <p>{{ moviePageStore.movieDetails.title }}</p>
           </div>
@@ -333,7 +341,7 @@ getCast(moviePageStore.movieCredits.crew);
 }
 .content_wrapper {
   display: flex;
-  padding: 2rem 0;
+  padding: 3rem 0;
   max-width: 136rem;
   margin: 0 auto;
   gap: 3rem;
@@ -350,6 +358,24 @@ getCast(moviePageStore.movieCredits.crew);
 
 .content_right {
   width: 25%;
+}
+.icons {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.icons img {
+  width: 2.4rem;
+  height: 2.4rem;
+  filter: brightness(0);
+  opacity: 0.8;
+  cursor: pointer;
+}
+.icons span {
+  width: 0.1rem;
+  height: 2.6rem;
+  background-color: #000;
+  opacity: 0.5;
 }
 .movie_cast .title {
   padding: 0 2rem;
