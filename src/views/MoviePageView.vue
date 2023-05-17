@@ -372,7 +372,7 @@ getCast(moviePageStore.movieCredits.crew);
   cursor: pointer;
 }
 .icons span {
-  width: 0.1rem;
+  width: 0.2rem;
   height: 2.6rem;
   background-color: #000;
   opacity: 0.5;
