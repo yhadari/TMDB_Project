@@ -121,6 +121,19 @@ homePageStore.fetchTrailers("movie");
     #fff 100%
   );
   z-index: 10;
+  animation-name: animation;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes animation {
+  0% {
+    right: -6rem;
+    top: 0;
+  }
+  100% {
+    right: 0;
+    top: 0;
+  }
 }
 .vedio_close {
   width: 100%;
@@ -168,6 +181,7 @@ homePageStore.fetchTrailers("movie");
 }
 .vedioCard {
   height: 17.8rem;
+  width: 31.8rem;
   min-width: 31.8rem;
   border-radius: 1rem;
   text-align: center;
