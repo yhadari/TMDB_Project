@@ -120,7 +120,7 @@ homePageStore.fetchTrailers("movie");
     rgba(255, 255, 255, 0) 0%,
     #fff 100%
   );
-  z-index: 10;
+  z-index: 20;
   animation-name: animation;
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
