@@ -51,10 +51,6 @@ const performScrollAnimation = () => {
 const stop = () => {
   stopScroll.value = true;
 };
-const sc = () => {
-  stopScroll.value = false;
-  performScrollAnimation();
-};
 
 onMounted(() => {
   setTimeout(() => {
@@ -67,7 +63,6 @@ onMounted(() => {
   <div class="Cards">
     <div
       @mouseover="stop()"
-      @mouseleave="sc()"
       :ref="`${props.type === 'vedio' && !stopScroll && 'scrollContainer'}`"
       @scroll="handleScroll"
       :class="`scrollBox ${props.type} ${
