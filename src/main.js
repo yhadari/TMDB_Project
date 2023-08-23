@@ -6,9 +6,9 @@ import "./assets/main.css";
 
 // PrimeVue
 import PrimeVue from "primevue/config";
-import "primeicons/primeicons.css ";
-import "primevue/resources/primevue.min.css ";
-import "primevue/resources/themes/saga-blue/theme.css ";
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
+import "primevue/resources/themes/lara-light-indigo/theme.css";
 
 //primevue components
 import InputText from "primevue/inputtext";
