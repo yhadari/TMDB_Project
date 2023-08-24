@@ -12,7 +12,7 @@ const homePageStore = useHomePageStore();
 
 await homePageStore.fetchTrending("all", "day");
 const trending = homePageStore.trending.data;
-const random = Math.floor(Math.random() * trending.length) + 1;
+const random = Math.floor(Math.random() * trending.length);
 console.log("t", trending[random]);
 </script>
 <template>
