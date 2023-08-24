@@ -19,6 +19,7 @@ console.log("t", trending[random]);
   <div>
     <div class="overlay">
       <img
+        style="object-position: 50% 35%"
         :src="`${state.base_url}${state.size}${trending[random].backdrop_path}`"
         alt="movies background"
       />
