@@ -1,11 +1,27 @@
 <script setup>
+import { reactive } from "vue";
 import { useHomePageStore } from "@/stores/HomePageStore";
+
+// data
+const state = reactive({
+  base_url: import.meta.env.VITE_TMDB_BASE_URL,
+  size: "original",
+});
+
 const homePageStore = useHomePageStore();
+
+await homePageStore.fetchTrending("all", "day");
+const trending = homePageStore.trending.data;
+const random = Math.floor(Math.random() * trending.length) + 1;
+console.log("t", trending[random]);
 </script>
 <template>
   <div>
     <div class="overlay">
-      <img :src="homePageStore.background" alt="movies background" />
+      <img
+        :src="`${state.base_url}${state.size}${trending[random].backdrop_path}`"
+        alt="movies background"
+      />
       <div class="title">
         <div>
           <h2>Welcome</h2>
